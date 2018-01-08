@@ -1,5 +1,5 @@
 {
-    "name": "desire2learn/laravelvalence",
+    "name": "smithandassociates/laravelvalence",
     "description": "Laravel service provider for D2L Valence API",
     "keywords": ["d2l", "valence", "laravel"],
     "license": "Apache-2.0",
