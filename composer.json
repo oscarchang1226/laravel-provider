@@ -23,5 +23,12 @@
           "type": "git",
           "url": "git@github.com:oscarchang1226/valence-sdk-php.git"
       }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SmithAndAssociates\\LaravelValence\\D2LServiceProvider"
+            ]
+        }
     }
 }
