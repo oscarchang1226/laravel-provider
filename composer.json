@@ -1,0 +1,27 @@
+{
+    "name": "desire2learn/laravelvalence",
+    "description": "Laravel service provider for D2L Valence API",
+    "keywords": ["d2l", "valence", "laravel"],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Oscar Chang",
+            "email": "oscarchang1226@gmail.com"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+	    "src"
+	]
+    },
+    "require": {
+        "desire2learn/valence": "dev-master",
+        "illuminate/support": "^5.5"
+    },
+    "repositories" : {
+      "valence": {
+          "type": "git",
+          "url": "git@github.com:oscarchang1226/valence-sdk-php.git"
+      }
+    }
+}
