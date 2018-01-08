@@ -7,13 +7,12 @@ use Desire2Learn\Valence\D2LUserContext;
 use Desire2Learn\Valence\D2LAppContext;
 use Desire2Learn\Valence\D2LConstants;
 
-class D2L implements D2LInterface {
-
-	protected $host;
-	protected $id;
-	protected $key;
-	protected $a;
-	protected $b;
+class D2L implements D2LInterface
+{
+	/**
+	 * @var D2LAppContext $authContext
+	 */
+	protected $authContext;
 
 	/**
 	 * @var D2LUserContext $userContext
@@ -21,21 +20,16 @@ class D2L implements D2LInterface {
 	protected $userContext;
 
 	public function __construct($host, $id, $key, $a, $b) {
-		$this->host = $host;
-		$this->id = $id;
-		$this->key = $key;
-		$this->a = $a;
-		$this->b = $b;
-		$authContext = new D2LAppContext($this->key, $this->id);
-		$hostSpec = new D2LHostSpec($this->host, '443', 'https');
-		$this->userContext = $authContext->createUserContextFromHostSpec(
+		$this->authContext = new D2LAppContext($id, $key);
+		$hostSpec = new D2LHostSpec($host, '443', 'https');
+		$this->userContext = $this->authContext->createUserContextFromHostSpec(
 			$hostSpec,
-			$this->a,
-			$this->b
+			$a,
+			$b
 		);
 	}
 
-	public function generateUrl( $path, $code, $method ) {
+	public function generateUrl( $path, $code, $method = 'GET' ) {
 		$code = strtolower($code);
 		$url = '/d2l/api/'.$code.'/';
 		if ($code === 'lp') {
@@ -45,18 +39,18 @@ class D2L implements D2LInterface {
 		} else if ($code === 'bas') {
 			$url .= D2LConstants::URI_BAS_VERSION;
 		} else {
-			throw new \Exception('D2L Code '. $code . 'not supported.');
+			return null;
 		}
 		return $this->userContext->createAuthenticatedUri($url.$path, $method);
 	}
 
-	public function call( $path, $method = 'GET',  $body = [] ) {
+	public function callAPI( $path, $method = 'GET', $body = [] ) {
 		if ($path) {
 			$method = strtoupper($method);
 			$params = array(
 				CURLOPT_RETURNTRANSFER => true,
 				CURLOPT_CUSTOMREQUEST => $method,
-				CURLOPT_URL => $url,
+				CURLOPT_URL => $path,
 				CURLOPT_SSL_VERIFYPEER => true,
 			);
 			if ($method === 'POST') {
@@ -72,14 +66,18 @@ class D2L implements D2LInterface {
 			$ch = curl_init();
 			curl_setopt_array($ch, $params);
 			$response = curl_exec($ch);
-			return json_decode($response, true);
+			$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+			$contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+			$responseCode = $this->userContext->handleResult($response, $httpCode, $contentType);
+			curl_close($ch);
+
+			if ($responseCode === D2LUserContext::RESULT_OKAY) {
+				return json_decode($response, true);
+			}
+			return ['error' => 'API call failed: '. $httpCode .' '.$response];
 		}
-		return null;
+		return 'No Path Found';
 	}
 
-	public function test()
-	{
-		return 'hello';
-	}
 
 }

@@ -13,7 +13,7 @@ interface D2LInterface {
 	 *
 	 * @return String
 	 */
-	public function generateUrl($path, $code, $method);
+	public function generateUrl($path, $code, $method = 'GET');
 
 	/**
 	 * Call D2L Valence API and return result.
@@ -24,5 +24,5 @@ interface D2LInterface {
 	 *
 	 * @return mixed
 	 */
-	public function call($path, $method, $body);
+	public function callAPI($path, $method = 'GET', $body = []);
 }
