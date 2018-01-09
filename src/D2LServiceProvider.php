@@ -4,6 +4,7 @@ namespace SmithAndAssociates\LaravelValence;
 
 use Illuminate\Support\ServiceProvider;
 use SmithAndAssociates\LaravelValence\Console\UpdateCommad;
+use SmithAndAssociates\LaravelValence\Helper\D2LHelper;
 
 class D2LServiceProvider extends ServiceProvider
 {
@@ -17,6 +18,8 @@ class D2LServiceProvider extends ServiceProvider
 		$this->publishes([
 			__DIR__.'/config/d2l.php' => config_path('d2l.php'),
 		]);
+
+//		$this->loadRoutesFrom(__DIR__.'/routes/api.php');
     }
 
     /**
@@ -36,11 +39,17 @@ class D2LServiceProvider extends ServiceProvider
 			);
 		});
 
-		if ($this->app->runningInConsole()) {
-			$this->commands([
-				UpdateCommad::class
-			]);
-		}
+    	$this->app->singleton('D2LHelper', function ($app) {
+    		return new D2LHelper(
+    			resolve('D2L')
+			);
+		});
+
+//		if ($this->app->runningInConsole()) {
+//			$this->commands([
+//				UpdateCommad::class
+//			]);
+//		}
     }
 
     protected function bindD2L()

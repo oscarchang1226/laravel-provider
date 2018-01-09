@@ -74,7 +74,10 @@ class D2L implements D2LInterface
 			if ($responseCode === D2LUserContext::RESULT_OKAY) {
 				return json_decode($response, true);
 			}
-			return ['error' => 'API call failed: '. $httpCode .' '.$response];
+			return [
+				'error' => 'API call failed: '. $httpCode .' '.$response,
+				'path' => $path
+			];
 		}
 		return 'No Path Found';
 	}

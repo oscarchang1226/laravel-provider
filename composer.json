@@ -16,7 +16,7 @@
     },
     "require": {
         "desire2learn/valence": "dev-master",
-        "illuminate/support": "^5.5"
+        "laravel/framework": "^5.5"
     },
     "repositories" : {
       "valence": {
