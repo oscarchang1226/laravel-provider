@@ -5,6 +5,42 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 interface D2LHelperInterface
 {
 	/**
+	 * Retrieve all the known and visible org unit types.
+	 *
+	 * @return mixed
+	 */
+	public function getOuTypes();
+
+	/**
+	 * Retrieve all org units that have no children.
+	 *
+	 * @param array $params
+	 *
+	 * @return mixed
+	 */
+	public function getChildless($params = []);
+
+	/**
+	 * Retrieve the table of course content for an org unit.
+	 *
+	 * @param $orgUnitId
+	 * @param array $params
+	 *
+	 * @return mixed
+	 */
+	public function getCourseTOC($orgUnitId, $params = []);
+
+	/**
+	 * Retrieve the users in the classlist who are able to earn awards along with their first ten awards.
+	 *
+	 * @param $orgUnit
+	 * @param array $params
+	 *
+	 * @return mixed
+	 */
+	public function getOrgClassAwards($orgUnit, $params = []);
+
+	/**
 	 * Retrieve the results for a query-based search across one or more repositories.
 	 *
 	 * @param array $params

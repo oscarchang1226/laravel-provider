@@ -6,21 +6,22 @@ use Illuminate\Console\Command;
 use App\Office;
 use Illuminate\Support\Facades\DB;
 
-class UpdateCommad extends Command
+class OfficeCommad extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'd2l:update {entity=offices}';
+    protected $signature = 'smithu:office
+    						{--S|sync : Sync with this database.}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Get all Regional Offices';
 
     /**
      * Create a new command instance.
@@ -57,7 +58,7 @@ class UpdateCommad extends Command
 //					$model->save();
 //				}
 //			});
-			$ouId = 6606;
+			$ouId = config();
 			$params = ['ouTypeId' => 105];
 			$response = $d2l->getDescendants($ouId, $params);
 			while ($response['PagingInfo']['HasMoreItems']) {
