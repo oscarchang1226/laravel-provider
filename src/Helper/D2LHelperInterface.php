@@ -5,6 +5,15 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 interface D2LHelperInterface
 {
 	/**
+	 * Retrieve properties for all org units.
+	 *
+	 * @param array $params
+	 *
+	 * @return mixed
+	 */
+	public function getOrgStructure($params = []);
+
+	/**
 	 * Retrieve all the known and visible org unit types.
 	 *
 	 * @return mixed

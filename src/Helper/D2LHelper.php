@@ -20,6 +20,12 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
+	public function getOrgStructure( $params = [] ) {
+		$path = $this->addQueryParameters('/orgstructure/', $params);
+		$path = $this->d2l->generateUrl($path, 'lp');
+		return $this->d2l->callAPI($path);
+	}
+
 	public function getOuTypes() {
 		return $this->d2l->callAPI(
 			$this->d2l->generateUrl('/outypes/', 'lp')

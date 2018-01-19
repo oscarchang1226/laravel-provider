@@ -3,7 +3,7 @@
 namespace SmithAndAssociates\LaravelValence;
 
 use Illuminate\Support\ServiceProvider;
-use SmithAndAssociates\LaravelValence\Console\OfficeCommad;
+use SmithAndAssociates\LaravelValence\Console\OrgStructureCommand;
 use SmithAndAssociates\LaravelValence\Console\AwardCommand;
 use SmithAndAssociates\LaravelValence\Helper\D2LHelper;
 use SmithAndAssociates\LaravelValence\Console\ChildlessCommand;
@@ -50,7 +50,7 @@ class D2LServiceProvider extends ServiceProvider
 
 		if ($this->app->runningInConsole()) {
 			$this->commands([
-				OfficeCommad::class,
+				OrgStructureCommand::class,
 				AwardCommand::class,
 				ChildlessCommand::class,
 				OuTypesCommand::class,
