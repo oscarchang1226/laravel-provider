@@ -48,6 +48,13 @@ class TableOfContentCommand extends Command
 		 */
         $d2l = resolve('D2LHelper');
         $result = $d2l->getCourseTOC($id, $params);
-        dd($result);
+        foreach($result['Modules'] as $module) {
+        	$this->info('Module ' . $module['ModuleId'] . ' ' . $module['Title']);
+        	foreach($module['Topics'] as $topic) {
+        		$this->info(" Topic " . $topic['TopicId'] . ' ' . $topic['Title']);
+			}
+			$this->info('----------------------------------------');
+		}
+		return $result;
     }
 }
