@@ -3,8 +3,12 @@
 namespace SmithAndAssociates\LaravelValence;
 
 use Illuminate\Support\ServiceProvider;
-use SmithAndAssociates\LaravelValence\Console\UpdateCommad;
+use SmithAndAssociates\LaravelValence\Console\OrgStructureCommand;
+use SmithAndAssociates\LaravelValence\Console\AwardCommand;
 use SmithAndAssociates\LaravelValence\Helper\D2LHelper;
+use SmithAndAssociates\LaravelValence\Console\ChildlessCommand;
+use SmithAndAssociates\LaravelValence\Console\OuTypesCommand;
+use SmithAndAssociates\LaravelValence\Console\TableOfContentCommand;
 
 class D2LServiceProvider extends ServiceProvider
 {
@@ -45,11 +49,15 @@ class D2LServiceProvider extends ServiceProvider
 			);
 		});
 
-//		if ($this->app->runningInConsole()) {
-//			$this->commands([
-//				UpdateCommad::class
-//			]);
-//		}
+		if ($this->app->runningInConsole()) {
+			$this->commands([
+				OrgStructureCommand::class,
+				AwardCommand::class,
+				ChildlessCommand::class,
+				OuTypesCommand::class,
+				TableOfContentCommand::class,
+			]);
+		}
     }
 
     protected function bindD2L()

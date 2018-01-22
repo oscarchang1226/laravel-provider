@@ -20,6 +20,69 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
+	public function getOrgStructure( $params = [] ) {
+		$path = $this->addQueryParameters('/orgstructure/', $params);
+		$path = $this->d2l->generateUrl($path, 'lp');
+		return $this->d2l->callAPI($path);
+	}
+
+	public function getOuTypes() {
+		return $this->d2l->callAPI(
+			$this->d2l->generateUrl('/outypes/', 'lp')
+		);
+	}
+
+	public function getChildless( $params = [] ) {
+		$path = $this->addQueryParameters('/orgstructure/childless/', $params);
+		$path = $this->d2l->generateUrl($path, 'lp');
+		return $this->d2l->callAPI($path);
+	}
+
+	public function getCourseTOC( $orgUnitId, $params = [] ) {
+		$path = $this->addQueryParameters('/'.$orgUnitId.'/content/toc', $params);
+		$path = $this->d2l->generateUrl($path, 'le');
+		return $this->d2l->callAPI($path);
+	}
+
+	public function getOrgClassAwards( $orgUnit, $params = [] ) {
+		$path = $this->addQueryParameters('/orgunits/'.$orgUnit.'/classlist/', $params);
+		$path = $this->d2l->generateUrl($path, 'bas');
+		return $this->d2l->callAPI($path);
+	}
+
+	public function searchObjects( $params = [] ) {
+		$path = $this->addQueryParameters('/objects/search/', $params);
+		$path = $this->d2l->generateUrl($path, 'lr');
+		return $this->d2l->callAPI($path);
+	}
+
+	public function getAllRepositories( $params = [] ) {
+		$path = $this->addQueryParameters('/repositories/all/', $params);
+		$path = $this->d2l->generateUrl($path, 'lr');
+		return $this->d2l->callAPI($path);
+	}
+
+	public function getVersions( $productCode ) {
+		$path = $productCode ? '/'.$productCode.'/versions/' : '/versions/';
+		$path = $this->d2l->generateUrl($path);
+		return $this->d2l->callAPI($path);
+	}
+
+
+	public function getUserAwards( $userId, $params = [] ) {
+		$path = $this->addQueryParameters('/issued/users/'.$userId.'/', $params);
+		$path = $this->d2l->generateUrl($path, 'bas');
+		return $this->d2l->callAPI($path);
+	}
+
+
+	public function getAwards( $params = [] ) {
+		$path = $this->addQueryParameters('/awards/', $params);
+		$path = $this->d2l->generateUrl($path, 'bas');
+		return $this->d2l->callAPI($path);
+	}
+
+
 	public function getClassList( $orgUnitId ) {
 		$path = $this->d2l->generateUrl('/'.$orgUnitId.'/classlist/', 'le');
 		return $this->d2l->callAPI($path);
@@ -45,10 +108,12 @@ class D2LHelper implements D2LHelperInterface
 
 	public function addQueryParameters( $path, $params = [] ) {
 		foreach ($params as $key => $value) {
-			if ($path[strlen($path - 1)] !== '&') {
-				$path .= '?';
+			if ($value) {
+				if ($path[strlen($path)-1] !== '&') {
+					$path .= '?';
+				}
+				$path .= $key . '=' . urlencode($value) . '&';
 			}
-			$path .= $key . '=' . urlencode($value) . '&';
 		}
 		return $path;
 	}

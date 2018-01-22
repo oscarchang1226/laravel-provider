@@ -29,17 +29,20 @@ class D2L implements D2LInterface
 		);
 	}
 
-	public function generateUrl( $path, $code, $method = 'GET' ) {
-		$code = strtolower($code);
-		$url = '/d2l/api/'.$code.'/';
-		if ($code === 'lp') {
-			$url .= D2LConstants::URI_LP_VERSION;
-		} else if ($code === 'le') {
-			$url .= D2LConstants::URI_LE_VERSION;
-		} else if ($code === 'bas') {
-			$url .= D2LConstants::URI_BAS_VERSION;
-		} else {
-			return null;
+	public function generateUrl( $path, $code = null, $method = 'GET' ) {
+		$url = '/d2l/api';
+		if ($code) {
+			$code = strtolower($code);
+			$url .= '/'.$code.'/';
+			if ($code === 'lp') {
+				$url .= D2LConstants::URI_LP_VERSION;
+			} else if ($code === 'le') {
+				$url .= D2LConstants::URI_LE_VERSION;
+			} else if ($code === 'bas') {
+				$url .= D2LConstants::URI_BAS_VERSION;
+			} else if ($code === 'lr') {
+				$url .= D2LConstants::URI_LR_VERSION;
+			}
 		}
 		return $this->userContext->createAuthenticatedUri($url.$path, $method);
 	}
