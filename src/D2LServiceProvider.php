@@ -8,6 +8,7 @@ use SmithAndAssociates\LaravelValence\Console\AwardCommand;
 use SmithAndAssociates\LaravelValence\Helper\D2LHelper;
 use SmithAndAssociates\LaravelValence\Console\ChildlessCommand;
 use SmithAndAssociates\LaravelValence\Console\OuTypesCommand;
+use SmithAndAssociates\LaravelValence\Console\TableOfContentCommand;
 
 class D2LServiceProvider extends ServiceProvider
 {
@@ -54,6 +55,7 @@ class D2LServiceProvider extends ServiceProvider
 				AwardCommand::class,
 				ChildlessCommand::class,
 				OuTypesCommand::class,
+				TableOfContentCommand::class,
 			]);
 		}
     }
