@@ -64,9 +64,6 @@ class OrgStructureCommand extends Command
 				$result['Items'] = array_merge($result['Items'], $temp['Items']);
 			}
 		}
-		if ($result['PagingInfo']['HasMoreItems']) {
-			$this->info('There are more items add \'--bookmark '. $result['PagingInfo']['Bookmark'] .'\' to the previous command.');
-		}
 
 		foreach($result['Items'] as $item) {
 			$code = $item['Code'];
@@ -87,6 +84,11 @@ class OrgStructureCommand extends Command
 			}
 			$this->info($id . ' ' . $code . ' ' . $name);
 		}
+
+		if ($result['PagingInfo']['HasMoreItems']) {
+			$this->info('There are more items add \'--bookmark '. $result['PagingInfo']['Bookmark'] .'\' to the previous command.');
+		}
+
 		return $result['Items'];
 	}
 }

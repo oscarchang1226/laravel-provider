@@ -67,10 +67,6 @@ class ChildlessCommand extends Command
 			}
 		}
 
-		if ($result['PagingInfo']['HasMoreItems']) {
-			$this->info('There are more items! Add \'--bookmark '. $result['PagingInfo']['Bookmark'] .'\'');
-		}
-
 		foreach($result['Items'] as $i) {
 			$name = $i['Name'];
 			$code = $i['Code'];
@@ -92,6 +88,10 @@ class ChildlessCommand extends Command
 			}
 
 			$this->info($id . ' ' . $name . ' ' . $code);
+		}
+
+		if ($result['PagingInfo']['HasMoreItems']) {
+			$this->info('There are more items! Add \'--bookmark '. $result['PagingInfo']['Bookmark'] .'\'');
 		}
 
 		return $result;

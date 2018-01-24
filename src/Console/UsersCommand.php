@@ -69,20 +69,20 @@ class UsersCommand extends Command
 			}
 		}
 
-		if (isset($result['PagingInfo']) && $result['PagingInfo']['HasMoreItems']) {
-			$this->info('There are more items! Add \'--bookmark '. $result['PagingInfo']['Bookmark'] .'\'');
-		}
-
 		if ($result && !isset($result['error'])) {
 			if (isset($result['Items'])) {
-				$this->info('Found ' . count($result['Items']) . ' users.');
-				if ($this->option('sync')) {
+				if ($this->option('all')) {
+					$this->info('Found ' . count($result['Items']) . ' users.');
+				} else {
 					foreach ($result['Items'] as $user) {
 						$taker = Taker::firstOrNew(['id' => $user['UserId']]);
 						$taker->first_name = $user['FirstName'];
 						$taker->last_name = $user['LastName'];
-						$taker->save();
-						$this->info($taker->full_name . ' updated.');
+						$this->info($taker->id . ' ' . $taker->full_name);
+						if ($this->option('sync')) {
+							$taker->save();
+							$this->info($taker->full_name . ' updated.');
+						}
 					}
 				}
 			} elseif (isset($result['UserId'])) {
@@ -100,6 +100,10 @@ class UsersCommand extends Command
 			}
 		} else {
 			$this->info('Found 0 users.');
+		}
+
+		if (isset($result['PagingInfo']) && $result['PagingInfo']['HasMoreItems']) {
+			$this->info('There are more items! Add \'--bookmark '. $result['PagingInfo']['Bookmark'] .'\'');
 		}
 
 		return $result;
