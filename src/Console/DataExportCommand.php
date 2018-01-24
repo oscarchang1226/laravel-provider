@@ -101,6 +101,7 @@ class DataExportCommand extends Command
 			}
 
 		} else {
+    		$extraKey = null;
 			if ($this->option('bds')) {
 				$result = $d2l->getDataExportBdsList();
 				$idKey = 'PluginId';
@@ -108,6 +109,7 @@ class DataExportCommand extends Command
 				if ($this->option('list')) {
 					$result = $d2l->getDataExportJobs();
 					$idKey = 'ExportJobId';
+					$extraKey = 'SubmitDate';
 				} else {
 					$result = $d2l->getDataExportList();
 					$idKey = 'DataSetId';
@@ -115,7 +117,9 @@ class DataExportCommand extends Command
 			}
 
 			foreach($result as $dataSet) {
-				$this->info($dataSet[$idKey] . "\t" . $dataSet['Name']);
+				$this->info(
+					$dataSet[$idKey] . "\t" . $dataSet['Name'] . ($extraKey ? "\t" . $dataSet[$extraKey] : '')
+				);
 			}
 		}
 

@@ -12,9 +12,11 @@ class AwardCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'smithu:award
-    						{--org=:Organization Unit}
-    						{--R=:Organization Unit and Descendants}';
+    protected $signature = 'smithu:awards
+    						{--type= : Filter by award type, defaults to all.}
+    						{--offset=0 : Number of records to skip, defaults to 0.}
+    						{--search= : Filter results to those with matches between search string and org unit’s name, or award’s title or description.}
+    						{--limit=100 : Number of records to return between 1 and 200.}';
 
     /**
      * The console command description.
@@ -46,16 +48,22 @@ class AwardCommand extends Command
      */
     public function handle()
     {
-        $orgUnit = $this->option('org');
-        $recursive = $this->option('R');
-        if ($orgUnit) {
-			$classlist = collect($this->d2l->getOrgClassAwards($orgUnit)['Objects'])->reduce(function($acc, $item) {
-				return $acc + count($item['IssuedAwards']['Objects']);
-			}, 0);
-			if ($recursive) {
+		$params = [
+			'awardType' => $this->option('type'),
+			'limit' => $this->option('limit'),
+			'offset' => $this->option('offset'),
+			'search' => $this->option('search')
+		];
 
-			}
-//			dd($classlist);
+		$result = $this->d2l->getAwards($params);
+
+		$this->info('---------------------------------------------------');
+
+		foreach($result['Objects'] as $award) {
+			$this->info($award['AwardId'] . ' ' . $award['Title'] . ' ' . $award['AwardType'] . ' ' . $award['Description']);
+			$this->info('---------------------------------------------------');
 		}
+
+		return $result;
     }
 }
