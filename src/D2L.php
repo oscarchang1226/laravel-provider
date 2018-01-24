@@ -53,32 +53,31 @@ class D2L implements D2LInterface
 			$params = array(
 				CURLOPT_RETURNTRANSFER => true,
 				CURLOPT_CUSTOMREQUEST => $method,
-				CURLOPT_URL => $path,
 				CURLOPT_SSL_VERIFYPEER => true,
 			);
 			if ($method === 'POST') {
 				$data = json_encode($body);
-				$params = array_merge($params, array(
-					CURLOPT_POSTFIELDS => $data,
-					CURLOPT_HTTPHEADER => array(
-						'Content-Type: application/json',
-						'Content-Length: '.strlen($data)
-					)
-				));
+				$params[CURLOPT_POSTFIELDS] = $data;
+				$params[CURLOPT_HTTPHEADER] = array(
+					'Content-Type: application/json',
+					'Content-Length: '.strlen($data)
+				);
 			}
-			$ch = curl_init();
+			$ch = curl_init($path);
 			curl_setopt_array($ch, $params);
 			$response = curl_exec($ch);
 			$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 			$contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
 			$responseCode = $this->userContext->handleResult($response, $httpCode, $contentType);
+
 			curl_close($ch);
 
 			if ($responseCode === D2LUserContext::RESULT_OKAY) {
 				return json_decode($response, true);
 			}
+
 			return [
-				'error' => 'API call failed: '. $httpCode .' '.$response,
+				'error' => 'API call failed: '. $httpCode .' '. $response,
 				'path' => $path
 			];
 		}

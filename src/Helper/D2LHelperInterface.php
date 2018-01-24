@@ -5,6 +5,61 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 interface D2LHelperInterface
 {
 	/**
+	 * Create an export job for the requested data set.
+	 *
+	 * @param $data
+	 *
+	 * @return mixed
+	 */
+	public function createDataExport($data);
+
+	/**
+	 * Retrieves a list of Brightspace Data Sets plugins that you have permission to see.
+	 *
+	 * @return mixed
+	 */
+	public function getDataExportBdsList();
+
+	/**
+	 * Retrieves a file stream for the requested Brightspace Data Sets plugin.
+	 *
+	 * @param $pluginId
+	 *
+	 * @return mixed
+	 */
+	public function downloadDataExportBds($pluginId);
+
+	/**
+	 * Lists all available data sets.
+	 *
+	 * @return mixed
+	 */
+	public function getDataExportList();
+
+	/**
+	 * Lists all available export jobs that you have previously submitted.
+	 *
+	 * @return mixed
+	 */
+	public function getDataExportJobs();
+
+	/**
+	 * Retrieves a ZIP file containing a CSV file with the data of the requested export job that you previously submitted.
+	 *
+	 * @param $jobId
+	 *
+	 * @return mixed
+	 */
+	public function downloadDataExport($jobId);
+
+	/**
+	 * Retrieve a list of all known user roles.
+	 *
+	 * @return mixed
+	 */
+	public function getRoles();
+
+	/**
 	 * Retrieve data for one or more users.
 	 *
 	 * @param array $params

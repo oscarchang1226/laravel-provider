@@ -10,6 +10,8 @@ use SmithAndAssociates\LaravelValence\Console\ChildlessCommand;
 use SmithAndAssociates\LaravelValence\Console\OuTypesCommand;
 use SmithAndAssociates\LaravelValence\Console\TableOfContentCommand;
 use SmithAndAssociates\LaravelValence\Console\UsersCommand;
+use SmithAndAssociates\LaravelValence\Console\DataExportCommand;
+use SmithAndAssociates\LaravelValence\Console\RolesCommand;
 
 class D2LServiceProvider extends ServiceProvider
 {
@@ -58,6 +60,8 @@ class D2LServiceProvider extends ServiceProvider
 				OuTypesCommand::class,
 				TableOfContentCommand::class,
 				UsersCommand::class,
+				DataExportCommand::class,
+				RolesCommand::class
 			]);
 		}
     }

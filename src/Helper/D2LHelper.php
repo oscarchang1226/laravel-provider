@@ -14,10 +14,45 @@ class D2LHelper implements D2LHelperInterface
 	/**
 	 * D2LHelper constructor.
 	 *
-	 * @param \SmithAndAssociates\LaravelValence\D2L $d2l
+	 * @param D2L $d2l
 	 */
-	public function __construct( \SmithAndAssociates\LaravelValence\D2L $d2l ) {
+	public function __construct( D2L $d2l ) {
 		$this->d2l = $d2l;
+	}
+
+	public function createDataExport( $data ) {
+		$path = $this->d2l->generateUrl('/dataExport/create', 'lp', 'POST');
+		return $this->d2l->callAPI($path, 'POST', $data);
+	}
+
+	public function getDataExportBdsList() {
+		$path = $this->d2l->generateUrl('/dataExport/bds/list', 'lp');
+		return $this->d2l->callAPI($path);
+	}
+
+	public function downloadDataExportBds( $pluginId ) {
+		$path = $this->d2l->generateUrl('/dataExport/bds/download/' . $pluginId, 'lp');
+		return $path;
+	}
+
+	public function getDataExportList() {
+		$path = $this->d2l->generateUrl('/dataExport/list', 'lp');
+		return $this->d2l->callAPI($path);
+	}
+
+	public function getDataExportJobs() {
+		$path = $this->d2l->generateUrl('/dataExport/jobs', 'lp');
+		return $this->d2l->callAPI($path);
+	}
+
+	public function downloadDataExport( $jobId ) {
+		$path = $this->d2l->generateUrl('/dataExport/download/' . $jobId, 'lp');
+		return $path;
+	}
+
+	public function getRoles() {
+		$path = $this->d2l->generateUrl('/roles/', 'lp');
+		return $this->d2l->callAPI($path);
 	}
 
 	public function getUsers( $params = [] ) {
