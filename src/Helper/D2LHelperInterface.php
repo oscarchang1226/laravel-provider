@@ -5,6 +5,15 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 interface D2LHelperInterface
 {
 	/**
+	 * Retrieve data for one or more users.
+	 *
+	 * @param array $params
+	 *
+	 * @return mixed
+	 */
+	public function getUsers($params = []);
+
+	/**
 	 * Retrieve properties for all org units.
 	 *
 	 * @param array $params

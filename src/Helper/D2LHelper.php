@@ -20,6 +20,12 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
+	public function getUsers( $params = [] ) {
+		$path = $this->addQueryParameters('/users/', $params);
+		$path = $this->d2l->generateUrl($path, 'lp');
+		return $this->d2l->callAPI($path);
+	}
+
 	public function getOrgStructure( $params = [] ) {
 		$path = $this->addQueryParameters('/orgstructure/', $params);
 		$path = $this->d2l->generateUrl($path, 'lp');
@@ -117,10 +123,5 @@ class D2LHelper implements D2LHelperInterface
 		}
 		return $path;
 	}
-
-	public function test() {
-		return $this->getDescendants(6606, ['ouTypeId' => 105]);
-	}
-
 
 }

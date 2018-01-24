@@ -9,6 +9,7 @@ use SmithAndAssociates\LaravelValence\Helper\D2LHelper;
 use SmithAndAssociates\LaravelValence\Console\ChildlessCommand;
 use SmithAndAssociates\LaravelValence\Console\OuTypesCommand;
 use SmithAndAssociates\LaravelValence\Console\TableOfContentCommand;
+use SmithAndAssociates\LaravelValence\Console\UsersCommand;
 
 class D2LServiceProvider extends ServiceProvider
 {
@@ -56,6 +57,7 @@ class D2LServiceProvider extends ServiceProvider
 				ChildlessCommand::class,
 				OuTypesCommand::class,
 				TableOfContentCommand::class,
+				UsersCommand::class,
 			]);
 		}
     }
