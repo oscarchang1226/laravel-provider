@@ -20,6 +20,16 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
+	public function associateAward( $orgUnit, $data ) {
+		$path = $this->d2l->generateUrl('/orgunits/' . $orgUnit . '/associations/', 'bas', 'POST');
+		return $this->d2l->callAPI($path, 'POST', $data);
+	}
+
+	public function issueAnAward( $orgUnitId, $data ) {
+		$path = $this->d2l->generateUrl('/orgunits/' . $orgUnitId . '/issued/', 'bas', 'POST');
+		return $this->d2l->callAPI($path, 'POST', $data);
+	}
+
 	public function createDataExport( $data ) {
 		$path = $this->d2l->generateUrl('/dataExport/create', 'lp', 'POST');
 		return $this->d2l->callAPI($path, 'POST', $data);

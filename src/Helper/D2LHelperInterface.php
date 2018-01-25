@@ -5,6 +5,26 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 interface D2LHelperInterface
 {
 	/**
+	 * Associate an award with an org unit.
+	 *
+	 * @param $orgUnit
+	 * @param $data
+	 *
+	 * @return mixed
+	 */
+	public function associateAward($orgUnit, $data);
+
+	/**
+	 * Issue an award.
+	 *
+	 * @param $orgUnitId
+	 * @param $data
+	 *
+	 * @return mixed
+	 */
+	public function issueAnAward($orgUnitId, $data);
+
+	/**
 	 * Create an export job for the requested data set.
 	 *
 	 * @param $data
