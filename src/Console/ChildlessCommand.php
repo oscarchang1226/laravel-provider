@@ -18,6 +18,8 @@ class ChildlessCommand extends Command
     						{--code= : Filter to org units with codes containing this substring.}
     						{--name= : Filter to org units with names containing this substring.}
     						{--bookmark= : Bookmark to use for fetching next data set segment.}
+    						{--award= : Add award to the listed items.}
+    						{--credit= : Credit value for the award.}
     						{--A|all : Get all items.}
     						{--S|sync : Sync to this database.}';
 
@@ -50,6 +52,8 @@ class ChildlessCommand extends Command
 		 */
         $d2l = resolve('D2LHelper');
 		$sync = $this->option('sync');
+		$award = $this->option('award');
+		$credit = $this->option('credit');
 		$params = [
 			'orgUnitType' => $this->option('type'),
 			'orgUnitCode' => $this->option('code'),
@@ -84,6 +88,18 @@ class ChildlessCommand extends Command
 						$module->save();
 						$this->info($id . ' ' . $name . ' updated.');
 					}
+				}
+			}
+
+			if ($award || $credit) {
+				if ($award && $credit) {
+					$this->call('smithu:awards', [
+						'awardId' => $award,
+						'--associate' => $id,
+						'--credit' => $credit
+					]);
+				} else {
+					$this->info('Required --award and --credit options are required to associate an award.');
 				}
 			}
 

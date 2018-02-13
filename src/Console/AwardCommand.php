@@ -60,9 +60,9 @@ class AwardCommand extends Command
 			];
 
 			$result = $this->d2l->associateAward($this->option('associate'), $data);
-			
+
 			if (isset($result['AssociationId'])) {
-				$this->info($result['AssociationId'] . ' ' . $result['OrgUnitId'] . ' ' . $result['Award']['AwardId']);
+				$this->info('Award ' . $result['Award']['AwardId'] . ' added to ' . $result['OrgUnitId']);
 			}
 
 		} else {
@@ -74,6 +74,9 @@ class AwardCommand extends Command
 			];
 
 			$result = $this->d2l->getAwards($params);
+			$result['Objects'] = array_filter($result['Objects'], function($award) {
+				return !$award['IsDeleted'];
+			});
 
 			$this->info('---------------------------------------------------');
 
