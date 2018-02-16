@@ -20,7 +20,8 @@ class DataExportCommand extends Command
     						{--R|roles= : User roles filter.}
     						{--l|list : Lists all available export jobs that you have previously submitted.}
     						{--D|download= : Download the given export job id or plugin id.}
-    						{--B|bds : Retrieves a list of BDS plugins that you have permission to see.}';
+    						{--B|bds : Retrieves a list of BDS plugins that you have permission to see.}
+    						{--name= : The name of the job or plugin id}';
 
     /**
      * The console command description.
@@ -115,6 +116,15 @@ class DataExportCommand extends Command
 					$idKey = 'DataSetId';
 				}
 			}
+
+			if ($this->option('name')) {
+				$result = array_filter($result, function ($item) use ($result) {
+					$temp = preg_match('/'. $this->option('name') .'$/i', $item['Name']);
+					return $temp;
+				});
+			}
+
+			dd($result);
 
 			foreach($result as $dataSet) {
 				$this->info(

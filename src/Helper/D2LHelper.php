@@ -20,6 +20,12 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
+	public function enrollUser( $data ) {
+		$path = $this->d2l->generateUrl('/enrollments/', 'lp', 'POST');
+		return $this->d2l->callAPI($path, 'POST', $data);
+	}
+
+
 	public function associateAward( $orgUnit, $data ) {
 		$path = $this->d2l->generateUrl('/orgunits/' . $orgUnit . '/associations/', 'bas', 'POST');
 		return $this->d2l->callAPI($path, 'POST', $data);

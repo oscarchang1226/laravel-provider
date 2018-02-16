@@ -12,6 +12,7 @@ use SmithAndAssociates\LaravelValence\Console\TableOfContentCommand;
 use SmithAndAssociates\LaravelValence\Console\UsersCommand;
 use SmithAndAssociates\LaravelValence\Console\DataExportCommand;
 use SmithAndAssociates\LaravelValence\Console\RolesCommand;
+use SmithAndAssociates\LaravelValence\Console\EnrollCommand;
 
 class D2LServiceProvider extends ServiceProvider
 {
@@ -61,7 +62,8 @@ class D2LServiceProvider extends ServiceProvider
 				TableOfContentCommand::class,
 				UsersCommand::class,
 				DataExportCommand::class,
-				RolesCommand::class
+				RolesCommand::class,
+				EnrollCommand::class
 			]);
 		}
     }

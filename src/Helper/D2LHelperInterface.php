@@ -5,6 +5,15 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 interface D2LHelperInterface
 {
 	/**
+	 * Create a new enrollment for a user.
+	 *
+	 * @param $data
+	 *
+	 * @return mixed
+	 */
+	public function enrollUser($data);
+
+	/**
 	 * Associate an award with an org unit.
 	 *
 	 * @param $orgUnit
