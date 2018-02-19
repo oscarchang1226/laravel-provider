@@ -13,7 +13,7 @@ class EnrollCommand extends Command
      * @var string
      */
     protected $signature = 'smithu:enroll
-    						{--orgUnitId= : Org Unit Id to enroll into.}
+    						{--orgUnitId=* : Org Unit Id to enroll into.}
     						{userId* : User Id to enroll with.}';
 
     /**
@@ -46,18 +46,22 @@ class EnrollCommand extends Command
      */
     public function handle()
     {
-        if ($this->argument('userId') && $this->option('orgUnitId')) {
-        	$data = array(
-        		'OrgUnitId' => $this->option('orgUnitId'),
+    	$userIds = $this->argument('userId');
+    	$orgUnitIds = $this->option('orgUnitId');
+        if (count($userIds) > 0 && count($orgUnitIds) > 0) {
+			$data = array(
 				'RoleId' => 103
 			);
-        	foreach ($this->argument('userId') as $idx => $userId) {
-        		$data['UserId'] = $userId;
-        		$result = $this->d2l->enrollUser($data);
-        		if (isset($result['error'])) {
-        			$this->info($idx + 1 . '. Failed to enroll user id ' . $userId . ' to ' . $data['OrgUnitId']);
-				} else {
-        			$this->info($idx + 1 . '. User Id ' . $userId . ' enrolled to ' . $data['OrgUnitId']);
+        	foreach ($orgUnitIds as $orgUnit) {
+        		$data['OrgUnitId'] = $orgUnit;
+				foreach ($userIds as $idx => $userId) {
+					$data['UserId'] = $userId;
+					$result = $this->d2l->enrollUser($data);
+					if (isset($result['error'])) {
+						$this->info($idx + 1 . '. Failed to enroll user id ' . $userId . ' to ' . $data['OrgUnitId']);
+					} else {
+						$this->info($idx + 1 . '. User Id ' . $userId . ' enrolled to ' . $data['OrgUnitId']);
+					}
 				}
 			}
 		}

@@ -19,6 +19,7 @@ class ChildlessCommand extends Command
     						{--name= : Filter to org units with names containing this substring.}
     						{--bookmark= : Bookmark to use for fetching next data set segment.}
     						{--award= : Add award to the listed items.}
+    						{--enroll= : Enroll user to the listed items.}
     						{--credit= : Credit value for the award.}
     						{--A|all : Get all items.}
     						{--S|sync : Sync to this database.}';
@@ -54,6 +55,7 @@ class ChildlessCommand extends Command
 		$sync = $this->option('sync');
 		$award = $this->option('award');
 		$credit = $this->option('credit');
+		$enroll = $this->option('enroll');
 		$params = [
 			'orgUnitType' => $this->option('type'),
 			'orgUnitCode' => $this->option('code'),
@@ -101,6 +103,13 @@ class ChildlessCommand extends Command
 				} else {
 					$this->info('Required --award and --credit options are required to associate an award.');
 				}
+			}
+
+			if ($enroll) {
+				$this->call('smithu:enroll', [
+					'userId' => [$enroll],
+					'--orgUnitId' => [$id]
+				]);
 			}
 
 			$this->info($id . ' ' . $name . ' ' . $code);
