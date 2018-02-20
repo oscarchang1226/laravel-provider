@@ -55,7 +55,7 @@ class D2L implements D2LInterface
 				CURLOPT_CUSTOMREQUEST => $method,
 				CURLOPT_SSL_VERIFYPEER => true,
 			);
-			if ($method === 'POST') {
+			if ($method === 'POST' || $method === 'PUT') {
 				$data = json_encode($body);
 				$params[CURLOPT_POSTFIELDS] = $data;
 				$params[CURLOPT_HTTPHEADER] = array(

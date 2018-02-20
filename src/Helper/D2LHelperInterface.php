@@ -5,6 +5,34 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 interface D2LHelperInterface
 {
 	/**
+	 * Retrieve data for a particular user.
+	 *
+	 * @param $userId
+	 *
+	 * @return mixed
+	 */
+	public function getUserData($userId);
+
+	/**
+	 * Update a particular user’s activation settings.
+	 *
+	 * @param $userId
+	 * @param $isActive
+	 *
+	 * @return mixed
+	 */
+	public function updateUserActivation($userId, $isActive);
+
+	/**
+	 * Retrieve a particular user’s activation settings.
+	 *
+	 * @param $userId
+	 *
+	 * @return mixed
+	 */
+	public function getUserActivation($userId);
+
+	/**
 	 * Create a new enrollment for a user.
 	 *
 	 * @param $data

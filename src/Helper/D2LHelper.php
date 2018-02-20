@@ -20,6 +20,21 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
+	public function getUserData( $userId ) {
+		$path = $this->d2l->generateUrl('/users/' . $userId, 'lp');
+		return $this->d2l->callAPI($path);
+	}
+
+	public function updateUserActivation( $userId, $isActive ) {
+		$path = $this->d2l->generateUrl('/users/' . $userId . '/activation', 'lp', 'PUT');
+		return $this->d2l->callAPI($path, 'PUT', ['IsActive' => $isActive]);
+	}
+
+	public function getUserActivation( $userId ) {
+		$path = $this->d2l->generateUrl('/users/' . $userId . '/activation', 'lp');
+		return $this->d2l->callAPI($path);
+	}
+
 	public function enrollUser( $data ) {
 		$path = $this->d2l->generateUrl('/enrollments/', 'lp', 'POST');
 		return $this->d2l->callAPI($path, 'POST', $data);
