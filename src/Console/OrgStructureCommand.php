@@ -19,7 +19,8 @@ class OrgStructureCommand extends Command
     						{--name= : Filter to org units with names containing this substring.}
     						{--bookmark= : Bookmark to use for fetching next data set segment.}
     						{--A|all : All results.}
-    						{--S|sync : Sync with this database.}';
+    						{--S|sync : Sync with this database.}
+    						{--leaderboard : Include new office to leaderboard.}';
 
     /**
      * The console command description.
@@ -79,6 +80,14 @@ class OrgStructureCommand extends Command
 						$office->code = $code;
 						$office->save();
 						$this->info( $office->id . ' ' . $office->name . ' updated.' );
+					} else {
+						$office = new Office;
+						$office->name = $name;
+						$office->code = $code;
+						$office->in_leaderboard = $this->option('leaderboard');
+						$office->points = 0.00;
+						$office->save();
+						$this->info($office->name . ' created!');
 					}
 				}
 			}
