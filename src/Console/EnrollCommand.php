@@ -14,7 +14,8 @@ class EnrollCommand extends Command
      */
     protected $signature = 'smithu:enroll
     						{--orgUnitId=* : Org Unit Id to enroll into.}
-    						{userId* : User Id to enroll with.}';
+    						{userId* : User Id to enroll with.}
+    						{--dismiss : Dismiss user from org unit by user id}';
 
     /**
      * The console command description.
@@ -56,11 +57,23 @@ class EnrollCommand extends Command
         		$data['OrgUnitId'] = $orgUnit;
 				foreach ($userIds as $idx => $userId) {
 					$data['UserId'] = $userId;
-					$result = $this->d2l->enrollUser($data);
-					if (isset($result['error'])) {
-						$this->info($idx + 1 . '. Failed to enroll user id ' . $userId . ' to ' . $data['OrgUnitId']);
+					if ($this->option('dismiss')) {
+						$verb = 'dismiss';
+						$failedVerb = 'dismissed from';
+						$result = $this->d2l->dismissUser($userId, $orgUnit);
 					} else {
-						$this->info($idx + 1 . '. User Id ' . $userId . ' enrolled to ' . $data['OrgUnitId']);
+						$verb = 'enroll';
+						$failedVerb = 'enrolled to';
+						$result = $this->d2l->enrollUser($data);
+					}
+					if (isset($result['error'])) {
+						$this->info(
+							$idx + 1 . '. Failed to ' . $verb . ' user id ' . $userId . ' to ' . $data['OrgUnitId']
+						);
+					} else {
+						$this->info(
+							$idx + 1 . '. User Id ' . $userId . ' ' . $failedVerb . ' ' . $data['OrgUnitId']
+						);
 					}
 				}
 			}

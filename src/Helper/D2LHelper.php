@@ -20,6 +20,15 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
+	public function dismissUser( $userId, $orgUnit ) {
+		$path = $this->d2l->generateUrl(
+			'/enrollments/orgUnits/' . $orgUnit . '/users/' . $userId,
+			'lp',
+			'DELETE'
+		);
+		return $this->d2l->callAPI($path, 'DELETE');
+	}
+
 	public function getUserData( $userId ) {
 		$path = $this->d2l->generateUrl('/users/' . $userId, 'lp');
 		return $this->d2l->callAPI($path);

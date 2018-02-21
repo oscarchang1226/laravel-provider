@@ -42,6 +42,16 @@ interface D2LHelperInterface
 	public function enrollUser($data);
 
 	/**
+	 * Delete a user’s enrollment in a provided org unit.
+	 *
+	 * @param $userId
+	 * @param $orgUnit
+	 *
+	 * @return mixed
+	 */
+	public function dismissUser($userId, $orgUnit);
+
+	/**
 	 * Associate an award with an org unit.
 	 *
 	 * @param $orgUnit
