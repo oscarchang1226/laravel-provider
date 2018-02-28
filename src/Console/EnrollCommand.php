@@ -14,7 +14,8 @@ class EnrollCommand extends Command
      */
     protected $signature = 'smithu:enroll
     						{--orgUnitId=* : Org Unit Id to enroll into.}
-    						{userId* : User Id to enroll with.}
+    						{--copyClassFrom= : Org Unit Id to copy class list from.}
+    						{userId?* : User Id to enroll with.}
     						{--dismiss : Dismiss user from org unit by user id}';
 
     /**
@@ -49,31 +50,50 @@ class EnrollCommand extends Command
     {
     	$userIds = $this->argument('userId');
     	$orgUnitIds = $this->option('orgUnitId');
-        if (count($userIds) > 0 && count($orgUnitIds) > 0) {
+    	$copyClassFrom = $this->option('copyClassFrom');
+    	if (count($orgUnitIds) > 0) {
 			$data = array(
 				'RoleId' => 103
 			);
-        	foreach ($orgUnitIds as $orgUnit) {
-        		$data['OrgUnitId'] = $orgUnit;
-				foreach ($userIds as $idx => $userId) {
-					$data['UserId'] = $userId;
-					if ($this->option('dismiss')) {
-						$verb = 'dismiss';
-						$failedVerb = 'dismissed from';
-						$result = $this->d2l->dismissUser($userId, $orgUnit);
+			foreach ($orgUnitIds as $orgUnit) {
+				if ($copyClassFrom) {
+					$classList = $this->d2l->getClassList($copyClassFrom);
+					if (!isset($classList['error'])) {
+						$classListArg = array_map(
+							function ($item) {
+								return $item['Identifier'];
+							},
+							$classList
+						);
+						$this->call('smithu:enroll', [
+							'userId' => $classListArg,
+							'--orgUnitId' => [$orgUnit]
+						]);
 					} else {
-						$verb = 'enroll';
-						$failedVerb = 'enrolled to';
-						$result = $this->d2l->enrollUser($data);
+						$this->info('Unable to retrieve class list of org unit ' . $orgUnit);
 					}
-					if (isset($result['error'])) {
-						$this->info(
-							$idx + 1 . '. Failed to ' . $verb . ' user id ' . $userId . ' to ' . $data['OrgUnitId']
-						);
-					} else {
-						$this->info(
-							$idx + 1 . '. User Id ' . $userId . ' ' . $failedVerb . ' ' . $data['OrgUnitId']
-						);
+				} else {
+					$data['OrgUnitId'] = $orgUnit;
+					foreach ($userIds as $idx => $userId) {
+						$data['UserId'] = $userId;
+						if ($this->option('dismiss')) {
+							$verb = 'dismiss';
+							$failedVerb = 'dismissed from';
+							$result = $this->d2l->dismissUser($userId, $orgUnit);
+						} else {
+							$verb = 'enroll';
+							$failedVerb = 'enrolled to';
+							$result = $this->d2l->enrollUser($data);
+						}
+						if (isset($result['error'])) {
+							$this->info(
+								$idx + 1 . '. Failed to ' . $verb . ' user id ' . $userId . ' to ' . $data['OrgUnitId']
+							);
+						} else {
+							$this->info(
+								$idx + 1 . '. User Id ' . $userId . ' ' . $failedVerb . ' ' . $data['OrgUnitId']
+							);
+						}
 					}
 				}
 			}

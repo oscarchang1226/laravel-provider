@@ -13,6 +13,7 @@ use SmithAndAssociates\LaravelValence\Console\UsersCommand;
 use SmithAndAssociates\LaravelValence\Console\DataExportCommand;
 use SmithAndAssociates\LaravelValence\Console\RolesCommand;
 use SmithAndAssociates\LaravelValence\Console\EnrollCommand;
+use SmithAndAssociates\LaravelValence\Console\SpecialCommand;
 
 class D2LServiceProvider extends ServiceProvider
 {
@@ -63,7 +64,8 @@ class D2LServiceProvider extends ServiceProvider
 				UsersCommand::class,
 				DataExportCommand::class,
 				RolesCommand::class,
-				EnrollCommand::class
+				EnrollCommand::class,
+				SpecialCommand::class
 			]);
 		}
     }
