@@ -63,6 +63,7 @@ class SpecialCommand extends Command
 					$result = $this->d2l->dismissUser($userId, $orgUnit);
 				}
 				if (isset($result['error'])) {
+        		    dd($result);
 					$this->info('Failed ' . $userId . ' ' . $orgUnit);
 				} else {
 					$this->info('Success ' . $userId . ' ' . $orgUnit);

@@ -29,7 +29,13 @@ class D2L implements D2LInterface
 		);
 	}
 
-	public function generateUrl( $path, $code = null, $method = 'GET' ) {
+    public function getAuthContext()
+    {
+        return $this->authContext;
+    }
+
+
+    public function generateUrl( $path, $code = null, $method = 'GET' ) {
 		$url = '/d2l/api';
 		if ($code) {
 			$code = strtolower($code);

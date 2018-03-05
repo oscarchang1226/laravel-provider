@@ -2,6 +2,8 @@
 
 namespace SmithAndAssociates\LaravelValence;
 
+use Desire2Learn\Valence\D2LAppContext;
+
 interface D2LInterface {
 
 	/**
@@ -25,4 +27,11 @@ interface D2LInterface {
 	 * @return mixed
 	 */
 	public function callAPI($path, $method = 'GET', $body = []);
+
+    /**
+     * Get D2L authntication contest
+     *
+     * @return D2LAppContext
+     */
+	public function getAuthContext();
 }

@@ -4,6 +4,16 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 
 interface D2LHelperInterface
 {
+    /**
+     *
+     * Generate URL to authenticate D2L account
+     *
+     * @param $host
+     * @param int $port
+     * @return mixed
+     */
+    public function getUrlToAuthenticate($host, $port = 443);
+
 	/**
 	 * Retrieve data for a particular user.
 	 *

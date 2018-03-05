@@ -20,7 +20,12 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
-	public function dismissUser( $userId, $orgUnit ) {
+    public function getUrlToAuthenticate($host, $port = 443)
+    {
+        return $this->d2l->getAuthContext()->createUrlForAuthentication($host, $port, 'https://udev.smithbuy.com/');
+    }
+
+    public function dismissUser( $userId, $orgUnit ) {
 		$path = $this->d2l->generateUrl(
 			'/enrollments/orgUnits/' . $orgUnit . '/users/' . $userId,
 			'lp',
