@@ -20,6 +20,18 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
+    public function addCourseOffering($params)
+    {
+        $path = $this->d2l->generateUrl('/courses/', 'lp', 'POST');
+        return $this->d2l->callAPI($path, 'POST', $params);
+    }
+
+    public function addCourseTemplate($params)
+    {
+        $path = $this->d2l->generateUrl('/courseTemplates/', 'lp', 'POST');
+        return $this->d2l->callAPI($path, 'POST', $params);
+    }
+
     public function getUrlToAuthenticate($host, $port = 443)
     {
         return $this->d2l->getAuthContext()->createUrlForAuthentication($host, $port, 'https://udev.smithbuy.com/');

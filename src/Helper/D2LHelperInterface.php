@@ -5,6 +5,22 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 interface D2LHelperInterface
 {
     /**
+     * Create a new course offering.
+     *
+     * @param $params
+     * @return mixed
+     */
+    public function addCourseOffering ($params);
+
+    /**
+     * Create a new course template.
+     *
+     * @param $params
+     * @return mixed
+     */
+    public function addCourseTemplate ($params);
+
+    /**
      *
      * Generate URL to authenticate D2L account
      *
