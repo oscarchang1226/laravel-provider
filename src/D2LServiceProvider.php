@@ -3,7 +3,6 @@
 namespace SmithAndAssociates\LaravelValence;
 
 use Illuminate\Support\ServiceProvider;
-use SmithAndAssociates\LaravelValence\Console\OrgStructureCommand;
 use SmithAndAssociates\LaravelValence\Console\AwardCommand;
 use SmithAndAssociates\LaravelValence\Helper\D2LHelper;
 use SmithAndAssociates\LaravelValence\Console\ChildlessCommand;
@@ -15,7 +14,6 @@ use SmithAndAssociates\LaravelValence\Console\RolesCommand;
 use SmithAndAssociates\LaravelValence\Console\EnrollCommand;
 use SmithAndAssociates\LaravelValence\Console\SpecialCommand;
 use SmithAndAssociates\LaravelValence\Console\AuthenticateCommand;
-Use SmithAndAssociates\LaravelValence\Console\CoursesCommand;
 
 class D2LServiceProvider extends ServiceProvider
 {
@@ -58,7 +56,6 @@ class D2LServiceProvider extends ServiceProvider
 
 		if ($this->app->runningInConsole()) {
 			$this->commands([
-				OrgStructureCommand::class,
 				AwardCommand::class,
 				ChildlessCommand::class,
 				OuTypesCommand::class,
@@ -69,7 +66,6 @@ class D2LServiceProvider extends ServiceProvider
 				EnrollCommand::class,
 				SpecialCommand::class,
                 AuthenticateCommand::class,
-                CoursesCommand::class
 			]);
 		}
     }
