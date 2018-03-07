@@ -20,6 +20,31 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
+    public function deleteCourseTemplate($orgUnit)
+    {
+        $path = $this->d2l->generateUrl('/coursetemplates/' . $orgUnit, 'lp', 'DELETE');
+        return $this->d2l->callAPI($path, 'DELETE');
+    }
+
+    public function deleteCourseOffering($orgUnit)
+    {
+        $path = $this->d2l->generateUrl('/courses/' . $orgUnit, 'lp', 'DELETE');
+        return $this->d2l->callAPI($path, 'DELETE');
+    }
+
+    public function getOrgUnitChildren($orgUnit, $type)
+    {
+        $path = $this->addQueryParameters('/orgstructure/'. $orgUnit .'/children/paged/', ['ouTypeId' => $type]);
+        $path = $this->d2l->generateUrl($path, 'lp');
+        return $this->d2l->callAPI($path);
+    }
+
+    public function addOrgStructure($params)
+    {
+        $path = $this->d2l->generateUrl('/orgstructure/', 'lp', 'POST');
+        return $this->d2l->callAPI($path, 'POST', $params);
+    }
+
     public function addCourseOffering($params)
     {
         $path = $this->d2l->generateUrl('/courses/', 'lp', 'POST');

@@ -5,6 +5,39 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 interface D2LHelperInterface
 {
     /**
+     * Delete a course template
+     *
+     * @param $orgUnit
+     * @return mixed
+     */
+    public function deleteCourseTemplate ($orgUnit);
+
+    /**
+     * Delete a course offering.
+     *
+     * @param $orgUnit
+     * @return mixed
+     */
+    public function deleteCourseOffering ($orgUnit);
+
+    /**
+     * Retrieve a list of child-units for a provided org unit.
+     *
+     * @param $orgUnit
+     * @param $type
+     * @return mixed
+     */
+    public function getOrgUnitChildren ($orgUnit, $type);
+
+    /**
+     * Create a new custom org unit.
+     *
+     * @param $params
+     * @return mixed
+     */
+    public function addOrgStructure ($params);
+
+    /**
      * Create a new course offering.
      *
      * @param $params
