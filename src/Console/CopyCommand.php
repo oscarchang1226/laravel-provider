@@ -54,7 +54,7 @@ class CopyCommand extends Command
 			);
         	$result = $this->d2l->copyOrgUnitComponent($orgUnit, $params);
         	if (isset($result['JobToken'])) {
-        		$this->info($sourceOrgUnit . ' => ' . $orgUnit . ' ( '. $result['JobToken'] .' )');
+        		$this->info('Copying components from ' . $sourceOrgUnit . ' to Org Unit ' . $orgUnit);
 			} else {
         		dd($result);
         		$this->error('Unable to perform copy from ' . $sourceOrgUnit . ' to ' . $orgUnit);
