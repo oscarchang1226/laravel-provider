@@ -4,6 +4,16 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 
 interface D2LHelperInterface
 {
+	/**
+	 * Queue up a new course copy job request.
+	 *
+	 * @param $orgUnit
+	 * @param $params
+	 *
+	 * @return mixed
+	 */
+	public function copyOrgUnitComponent ($orgUnit, $params);
+
     /**
      * Delete a course template
      *

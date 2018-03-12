@@ -14,6 +14,7 @@ use SmithAndAssociates\LaravelValence\Console\RolesCommand;
 use SmithAndAssociates\LaravelValence\Console\EnrollCommand;
 use SmithAndAssociates\LaravelValence\Console\SpecialCommand;
 use SmithAndAssociates\LaravelValence\Console\AuthenticateCommand;
+use SmithAndAssociates\LaravelValence\Console\CopyCommand;
 
 class D2LServiceProvider extends ServiceProvider
 {
@@ -66,6 +67,7 @@ class D2LServiceProvider extends ServiceProvider
 				EnrollCommand::class,
 				SpecialCommand::class,
                 AuthenticateCommand::class,
+				CopyCommand::class,
 			]);
 		}
     }

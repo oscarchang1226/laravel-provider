@@ -20,7 +20,13 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
-    public function deleteCourseTemplate($orgUnit)
+	public function copyOrgUnitComponent( $orgUnit, $params )
+	{
+		$path = $this->d2l->generateUrl('/import/' . $orgUnit . '/copy/', 'le', 'POST');
+		return $this->d2l->callAPI($path, 'POST', $params);
+	}
+
+	public function deleteCourseTemplate($orgUnit)
     {
         $path = $this->d2l->generateUrl('/coursetemplates/' . $orgUnit, 'lp', 'DELETE');
         return $this->d2l->callAPI($path, 'DELETE');
