@@ -5,6 +5,16 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 interface D2LHelperInterface
 {
 	/**
+	 * Retrieve a list of all enrollments for the provided user.
+	 *
+	 * @param $userId
+	 * @param $params
+	 *
+	 * @return mixed
+	 */
+	public function getUserEnrollments ($userId, $params);
+
+	/**
 	 * Queue up a new course copy job request.
 	 *
 	 * @param $orgUnit
