@@ -20,6 +20,13 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
+	public function getUserEnrollments( $userId, $params )
+	{
+		$path = $this->addQueryParameters('/enrollments/users/' . $userId . '/orgUnits/', $params);
+		$path = $this->d2l->generateUrl($path, 'lp');
+		return $this->d2l->callAPI($path);
+	}
+
 	public function copyOrgUnitComponent( $orgUnit, $params )
 	{
 		$path = $this->d2l->generateUrl('/import/' . $orgUnit . '/copy/', 'le', 'POST');
