@@ -14,13 +14,15 @@ class UsersCommand extends Command
      * @var string
      */
     protected $signature = 'smithu:users
-    						{userIds* : Brightspace User Ids.}
+    						{userIds?* : Brightspace User Ids.}
     						{--orgId= : Org-defined identifier to look for.}
     						{--username= : User name to look for.}
     						{--email= : External email address to look for.}
+    						{--searchEmail= : Email contains given text.}
     						{--bookmark= : Bookmark to use for fetching next data set segment.}
     						{--A|all : Retrieve all.}
     						{--S|sync : Sync to this database.}
+    						{--officeId= : The office id to set for a list od users.}
     						{--activate : Activate account.}
     						{--deactivate : Deactivate account.}';
 
@@ -96,8 +98,28 @@ class UsersCommand extends Command
 
 			if ($result && !isset($result['error'])) {
 				if (isset($result['Items'])) {
-					if ($this->option('all')) {
-						$this->info('Found ' . count($result['Items']) . ' users.');
+                    if ($this->option('all')) {
+                        if ($this->option('searchEmail')) {
+                            $users = array_filter($result['Items'], function ($user) {
+                                return strpos($user['ExternalEmail'], $this->option('searchEmail')) !== false;
+                            });
+                            $officeId = $this->option('officeId');
+                            foreach ($users as $user) {
+                                $taker = Taker::firstOrNew(['id' => $user['UserId']]);
+                                $taker->first_name = $user['FirstName'];
+                                $taker->last_name = $user['LastName'];
+                                if ($officeId) {
+                                    $taker->office_id = $officeId;
+                                }
+                                $this->info($taker->id . ' ' . $taker->full_name);
+                                if ($this->option('sync')) {
+                                    $taker->save();
+                                    $this->info($taker->full_name . ' updated.');
+                                }
+                            }
+                        } else {
+                            $this->info('Found ' . count($result['Items']) . ' users.');
+                        }
 					} else {
 						foreach ($result['Items'] as $user) {
 							$taker = Taker::firstOrNew(['id' => $user['UserId']]);
