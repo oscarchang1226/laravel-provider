@@ -20,6 +20,17 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
+	public function getOrgStructureProperties( $orgUnit ) {
+		$path = $this->d2l->generateUrl('/orgstructure/' . $orgUnit, 'lp');
+		return $this->d2l->callAPI($path);
+	}
+
+	public function updateOrgStructure( $orgUnit, $params )
+	{
+		$path = $this->d2l->generateUrl('/orgstructure/' . $orgUnit, 'lp', 'PUT');
+		return $this->d2l->callAPI($path, 'PUT', $params);
+	}
+
 	public function getUserEnrollments( $userId, $params )
 	{
 		$path = $this->addQueryParameters('/enrollments/users/' . $userId . '/orgUnits/', $params);

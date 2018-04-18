@@ -19,6 +19,8 @@ class ChildlessCommand extends Command
     						{--name= : Filter to org units with names containing this substring.}
     						{--bookmark= : Bookmark to use for fetching next data set segment.}
     						{--award= : Add award to the listed items.}
+    						{--assessment= : Assessment id that awards the specified award.}
+    						{--checkAward : Flag to fix award on course list.}
     						{--enroll= : Enroll user to the listed items.}
     						{--credit= : Credit value for the award.}
     						{--copyFrom= : Org unit ID of the source course offering.}
@@ -64,6 +66,8 @@ class ChildlessCommand extends Command
 			'orgUnitName' => $this->option('name'),
 			'bookmark' => $this->option('bookmark'),
 		];
+		$assessment = $this->option('assessment');
+		$checkAward = $this->option('checkAward');
 		$result = $d2l->getChildless($params);
 
 		if ($this->option('all')) {
@@ -79,6 +83,8 @@ class ChildlessCommand extends Command
 			$name = $i['Name'];
 			$code = $i['Code'];
 			$id = $i['Identifier'];
+
+			$this->info($id . ' ' . $name . ' ' . $code);
 
 			if ($sync) {
 				$office = $d2l->getAncestors($id, ['ouTypeId' => 105]);
@@ -102,6 +108,13 @@ class ChildlessCommand extends Command
 						'--associate' => $id,
 						'--credit' => $credit
 					]);
+				} else if ($award && $assessment) {
+					$this->call('smithu:awards', [
+						'awardId' => $award,
+						'--orgUnitId' => $id,
+						'--assessmentId' => $assessment,
+						'--issue' => $checkAward
+					]);
 				} else {
 					$this->info('Required --award and --credit options are required to associate an award.');
 				}
@@ -120,8 +133,6 @@ class ChildlessCommand extends Command
 					'--sourceOrgUnitId' => $copyFrom
 				]);
 			}
-
-			$this->info($id . ' ' . $name . ' ' . $code);
 		}
 
 		if ($result['PagingInfo']['HasMoreItems']) {
