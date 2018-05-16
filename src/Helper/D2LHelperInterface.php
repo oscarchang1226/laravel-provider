@@ -5,14 +5,6 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 interface D2LHelperInterface
 {
     /**
-     * Get Org Unit Properties
-     *
-     * @param $orgUnitId
-     * @return mixed
-     */
-    public function getOrgUnitProperties ($orgUnitId);
-
-    /**
      * Get items of paged result
      *
      * @param $pagedResult
@@ -44,6 +36,25 @@ interface D2LHelperInterface
      * @return mixed
      */
     public function getBookmark ($pagedResult);
+
+	/**
+	 * Update a custom org unit’s properties
+	 *
+	 * @param $orgUnit
+	 *
+	 * @return mixed
+	 */
+	public function getOrgStructureProperties($orgUnit);
+
+	/**
+	 * Update a custom org unit’s properties
+	 *
+	 * @param $orgUnit
+	 * @param $params
+	 *
+	 * @return mixed
+	 */
+	public function updateOrgStructure($orgUnit, $params);
 
 	/**
 	 * Retrieve a list of all enrollments for the provided user.

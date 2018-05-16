@@ -20,12 +20,6 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
-    public function getOrgUnitProperties($orgUnitId)
-    {
-        $path = $this->d2l->generateUrl('/orgstructure/' . $orgUnitId, 'lp');
-        return $this->d2l->callAPI($path);
-    }
-
     public function getPagedResultItems($pagedResult)
     {
         return $pagedResult['Items'] ?? [];
@@ -47,7 +41,18 @@ class D2LHelper implements D2LHelperInterface
         return $pagedResult['PagingInfo']['Bookmark'];
     }
 
-    public function getUserEnrollments( $userId, $params )
+	public function getOrgStructureProperties( $orgUnit ) {
+		$path = $this->d2l->generateUrl('/orgstructure/' . $orgUnit, 'lp');
+		return $this->d2l->callAPI($path);
+	}
+
+	public function updateOrgStructure( $orgUnit, $params )
+	{
+		$path = $this->d2l->generateUrl('/orgstructure/' . $orgUnit, 'lp', 'PUT');
+		return $this->d2l->callAPI($path, 'PUT', $params);
+	}
+
+	public function getUserEnrollments( $userId, $params )
 	{
 		$path = $this->addQueryParameters('/enrollments/users/' . $userId . '/orgUnits/', $params);
 		$path = $this->d2l->generateUrl($path, 'lp');

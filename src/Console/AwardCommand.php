@@ -4,6 +4,7 @@ namespace SmithAndAssociates\LaravelValence\Console;
 
 use Illuminate\Console\Command;
 use SmithAndAssociates\LaravelValence\Helper\D2LHelper;
+use App\Attempt;
 
 class AwardCommand extends Command
 {
@@ -14,6 +15,9 @@ class AwardCommand extends Command
      */
     protected $signature = 'smithu:awards
     						{awardId? : Award Id for an award.}
+    						{--orgUnitId= : Org Unit to check who have not received the award.}
+    						{--assessmentId= : The assessment id that issue the award.}
+    						{--issue : Flag to issue award.}
     						{--associate= : Org Unit Id to associate an award to.}
     						{--credit= : Credit value for award. }
     						{--type= : Filter by award type, defaults to all.}
@@ -84,6 +88,38 @@ class AwardCommand extends Command
 				$this->info('Award ' . $result['Award']['AwardId'] . ' added to ' . $result['OrgUnitId']);
 			}
 
+		} else if ($this->option('orgUnitId')) {
+    		$awardId = $this->argument('awardId');
+    		$orgUnitId = $this->option('orgUnitId');
+    		$classList = $this->d2l->getOrgClassAwards($orgUnitId);
+    		while ($classList['Next']) {
+    			$temp = $this->d2l->getOrgClassAwards($orgUnitId, ['offset' => 100]);
+    			$classList['Next'] = $temp['Next'];
+    			$classList['Objects'] = array_merge($classList['Objects'], $temp['Objects']);
+			}
+    		foreach ($classList['Objects'] as $learner) {
+    			$learnerPreText = $learner['UserId'] . ' ' . $learner['FirstName'] . ' ' . $learner['LastName'];
+				if (!$learner['TotalAwardCount']) {
+    				if ($this->option('issue')) {
+						$passed = Attempt::where([
+							['assessment_id', $this->option('assessmentId')],
+							['taker_id', $learner['UserId']],
+							['points', '>', 0]
+						])->first();
+						if ($passed) {
+							$this->d2l->issueAnAward($orgUnitId, [
+								'AwardId' => $awardId,
+								'IssuedToUserId' => $learner['UserId'],
+								'Criteria' => 'Passing ' . $passed->assessment->name . '.',
+								'Evidence' => 'Scored ' . $passed->percentage . ' of ' . $passed->assessment->percentage_to_pass
+							]);
+							$this->info($learnerPreText . ' awarded.');
+						}
+					} else {
+    					$this->info($learnerPreText);
+					}
+				}
+			}
 		} else {
 			$params = [
 				'awardType' => $this->option('type'),
