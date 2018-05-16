@@ -19,6 +19,10 @@ class AwardCommand extends Command
     						{--type= : Filter by award type, defaults to all.}
     						{--offset=0 : Number of records to skip, defaults to 0.}
     						{--search= : Filter results to those with matches between search string and org unit’s name, or award’s title or description.}
+    						{--issueTo=* : User Id to issue awards to.}
+    						{--criteria= : Criteria that triggered awarding.}
+    						{--evidence= : Evidence to issue an award.}
+    						{--orgUnitId= : Org Unit Id for issued context.}
     						{--limit=100 : Number of records to return between 1 and 200.}';
 
     /**
@@ -51,8 +55,23 @@ class AwardCommand extends Command
      */
     public function handle()
     {
-
-    	if ($this->option('associate')) {
+        $issueTo = $this->option('issueTo');
+        if (count($issueTo) > 0 && $this->argument('awardId')) {
+            $orgUnitId = $this->option('orgUnitId');
+            $criteria = $this->option('criteria');
+            $evidence = $this->option('evidence');
+            $params = [
+                'AwardId' => $this->argument('awardId'),
+                'Criteria' => $criteria,
+                'Evidence' => $evidence
+            ];
+            foreach ($issueTo as $userId) {
+                $params['IssuedToUserId'] = $userId;
+                $this->info('Issueing ' . $this->argument('awardId') . ' to user id ' . $userId . ' in ' . $orgUnitId . ' ' . $criteria . ' ' . $evidence);
+                $this->d2l->issueAnAward($orgUnitId, $params);
+            }
+            $result = [];
+        } else if ($this->option('associate')) {
 			$data = [
 				'AwardId' => $this->argument('awardId'),
 				'Credit' => $this->option('credit'),

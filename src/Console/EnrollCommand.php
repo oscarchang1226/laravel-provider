@@ -15,6 +15,7 @@ class EnrollCommand extends Command
     protected $signature = 'smithu:enroll
     						{--orgUnitId=* : Org Unit Id to enroll into.}
     						{--copyClassFrom= : Org Unit Id to copy class list from.}
+    						{--removeClassList : Flag to unenroll class list of given Org Unit Id}
     						{userId?* : User Id to enroll with.}
     						{--dismiss : Dismiss user from org unit by user id}';
 
@@ -51,6 +52,7 @@ class EnrollCommand extends Command
     	$userIds = $this->argument('userId');
     	$orgUnitIds = $this->option('orgUnitId');
     	$copyClassFrom = $this->option('copyClassFrom');
+    	$removeClassList = $this->option('removeClassList');
     	if (count($orgUnitIds) > 0) {
 			$data = array(
 				'RoleId' => 103
@@ -70,9 +72,26 @@ class EnrollCommand extends Command
 							'--orgUnitId' => [$orgUnit]
 						]);
 					} else {
-						$this->info('Unable to retrieve class list of org unit ' . $orgUnit);
+						$this->info('Unable to retrieve class list of org unit ' . $copyClassFrom);
 					}
-				} else {
+				} else if ($removeClassList) {
+                    $classList = $this->d2l->getClassList($orgUnit);
+                    if (!isset($classList['error'])) {
+                        $classListArg = array_map(
+                            function ($item) {
+                                return $item['Identifier'];
+                            },
+                            $classList
+                        );
+                        $this->call('smithu:enroll', [
+                            'userId' => $classListArg,
+                            '--orgUnitId' => [$orgUnit],
+                            '--dismiss' => 1
+                        ]);
+                    } else {
+                        $this->info('Unable to retrieve class list of org unit ' . $orgUnit);
+                    }
+                } else {
 					$data['OrgUnitId'] = $orgUnit;
 					foreach ($userIds as $idx => $userId) {
 						$data['UserId'] = $userId;

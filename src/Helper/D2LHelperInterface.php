@@ -4,6 +4,47 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 
 interface D2LHelperInterface
 {
+    /**
+     * Get Org Unit Properties
+     *
+     * @param $orgUnitId
+     * @return mixed
+     */
+    public function getOrgUnitProperties ($orgUnitId);
+
+    /**
+     * Get items of paged result
+     *
+     * @param $pagedResult
+     * @return mixed
+     */
+    public function getPagedResultItems ($pagedResult);
+
+    /**
+     * Updates paged result with new page result
+     *
+     * @param $oldPage
+     * @param $newPage
+     * @return mixed
+     */
+    public function updatePagedResult ($oldPage, $newPage);
+    
+    /**
+     * Check if there are more item in paged result
+     *
+     * @param $pagedResult
+     * @return mixed
+     */
+    public function hasMoreItem ($pagedResult);
+
+    /**
+     * Get bookmark for paged result object
+     *
+     * @param $pagedResult
+     * @return mixed
+     */
+    public function getBookmark ($pagedResult);
+
 	/**
 	 * Retrieve a list of all enrollments for the provided user.
 	 *
@@ -45,9 +86,10 @@ interface D2LHelperInterface
      *
      * @param $orgUnit
      * @param $type
+     * @param null $bookmark
      * @return mixed
      */
-    public function getOrgUnitChildren ($orgUnit, $type);
+    public function getOrgUnitChildren ($orgUnit, $type, $bookmark = null);
 
     /**
      * Create a new custom org unit.

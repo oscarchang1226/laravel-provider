@@ -20,7 +20,34 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
-	public function getUserEnrollments( $userId, $params )
+    public function getOrgUnitProperties($orgUnitId)
+    {
+        $path = $this->d2l->generateUrl('/orgstructure/' . $orgUnitId, 'lp');
+        return $this->d2l->callAPI($path);
+    }
+
+    public function getPagedResultItems($pagedResult)
+    {
+        return $pagedResult['Items'] ?? [];
+    }
+
+    public function updatePagedResult($oldPage, $newPage)
+    {
+        $newPage['Items'] = array_merge($oldPage['Items'] ?? [], $newPage['Items'] ?? []);
+        return $newPage;
+    }
+
+    public function hasMoreItem($pagedResult)
+    {
+        return $pagedResult['PagingInfo']['HasMoreItems'] ?? false;
+    }
+
+    public function getBookmark($pagedResult)
+    {
+        return $pagedResult['PagingInfo']['Bookmark'];
+    }
+
+    public function getUserEnrollments( $userId, $params )
 	{
 		$path = $this->addQueryParameters('/enrollments/users/' . $userId . '/orgUnits/', $params);
 		$path = $this->d2l->generateUrl($path, 'lp');
@@ -45,9 +72,9 @@ class D2LHelper implements D2LHelperInterface
         return $this->d2l->callAPI($path, 'DELETE');
     }
 
-    public function getOrgUnitChildren($orgUnit, $type)
+    public function getOrgUnitChildren($orgUnit, $type, $bookmark = null)
     {
-        $path = $this->addQueryParameters('/orgstructure/'. $orgUnit .'/children/paged/', ['ouTypeId' => $type]);
+        $path = $this->addQueryParameters('/orgstructure/'. $orgUnit .'/children/paged/', ['ouTypeId' => $type, 'bookmark' => $bookmark]);
         $path = $this->d2l->generateUrl($path, 'lp');
         return $this->d2l->callAPI($path);
     }

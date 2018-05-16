@@ -22,6 +22,7 @@ class ChildlessCommand extends Command
     						{--enroll= : Enroll user to the listed items.}
     						{--credit= : Credit value for the award.}
     						{--copyFrom= : Org unit ID of the source course offering.}
+    						{--copyClassFrom= : Org Unit ID of the class list to copy.}
     						{--A|all : Get all items.}
     						{--S|sync : Sync to this database.}';
 
@@ -58,6 +59,7 @@ class ChildlessCommand extends Command
 		$credit = $this->option('credit');
 		$enroll = $this->option('enroll');
 		$copyFrom = $this->option('copyFrom');
+		$copyClassFrom = $this->option('copyClassFrom');
 		$params = [
 			'orgUnitType' => $this->option('type'),
 			'orgUnitCode' => $this->option('code'),
@@ -107,7 +109,12 @@ class ChildlessCommand extends Command
 				}
 			}
 
-			if ($enroll) {
+			if ($copyClassFrom) {
+			    $this->call('smithu:enroll', [
+			        '--copyClassFrom' => $copyClassFrom,
+                    '--orgUnitId' => [$id]
+                ]);
+            } else if ($enroll) {
 				$this->call('smithu:enroll', [
 					'userId' => [$enroll],
 					'--orgUnitId' => [$id]
