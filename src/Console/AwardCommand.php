@@ -61,6 +61,7 @@ class AwardCommand extends Command
      */
     public function handle()
     {
+        $result = null;
         $issueTo = $this->option('issueTo');
         if (count($issueTo) > 0 && $this->argument('awardId')) {
             $orgUnitId = $this->option('orgUnitId');
