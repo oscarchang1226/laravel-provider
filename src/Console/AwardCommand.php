@@ -19,6 +19,8 @@ class AwardCommand extends Command
     						{--assessmentId= : The assessment id that issue the award.}
     						{--issue : Flag to issue award.}
     						{--associate= : Org Unit Id to associate an award to.}
+    						{--removeFrom= : Org Unit Id to remove award from.}
+    						{--confirm : Flag to confirm action.}
     						{--credit= : Credit value for award. }
     						{--type= : Filter by award type, defaults to all.}
     						{--offset=0 : Number of records to skip, defaults to 0.}
@@ -76,18 +78,33 @@ class AwardCommand extends Command
             }
             $result = [];
         } else if ($this->option('associate')) {
-			$data = [
-				'AwardId' => $this->argument('awardId'),
-				'Credit' => $this->option('credit'),
-				'HiddenAward' => false
-			];
+            $data = [
+                'AwardId' => $this->argument('awardId'),
+                'Credit' => $this->option('credit'),
+                'HiddenAward' => false
+            ];
 
-			$result = $this->d2l->associateAward($this->option('associate'), $data);
+            $result = $this->d2l->associateAward($this->option('associate'), $data);
 
-			if (isset($result['AssociationId'])) {
-				$this->info('Award ' . $result['Award']['AwardId'] . ' added to ' . $result['OrgUnitId']);
-			}
-
+            if (isset($result['AssociationId'])) {
+                $this->info('Award ' . $result['Award']['AwardId'] . ' added to ' . $result['OrgUnitId']);
+            }
+        } else if ($this->option('removeFrom')) {
+            $result = [];
+            $awardId = $this->argument('awardId');
+            $removeFrom = $this->option('removeFrom');
+            $associationsObject = $this->d2l->getOrgUnitAssociations($removeFrom);
+            $association = collect($associationsObject['Objects'] ?? [])->first(function ($assoc) use ($awardId) {
+                return $assoc['Award']['AwardId'] === (int)$awardId;
+            });
+            if ($association) {
+                if ($this->option('confirm')) {
+                    $result = $this->d2l->deleteAssociation($removeFrom, $association['AssociationId']);
+                }
+                $this->info("Assosiation with id {$association['AssociationId']} deleted from {$removeFrom}.");
+            } else {
+                $this->error("No award with id {$awardId} found in {$removeFrom}");
+            }
 		} else if ($this->option('orgUnitId')) {
     		$awardId = $this->argument('awardId');
     		$orgUnitId = $this->option('orgUnitId');

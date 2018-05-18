@@ -19,12 +19,14 @@ class ChildlessCommand extends Command
     						{--name= : Filter to org units with names containing this substring.}
     						{--bookmark= : Bookmark to use for fetching next data set segment.}
     						{--award= : Add award to the listed items.}
+    						{--removeAward= : Award to be removed.}
     						{--assessment= : Assessment id that awards the specified award.}
     						{--checkAward : Flag to fix award on course list.}
     						{--enroll= : Enroll user to the listed items.}
     						{--credit= : Credit value for the award.}
     						{--copyFrom= : Org unit ID of the source course offering.}
     						{--copyClassFrom= : Org Unit ID of the class list to copy.}
+    						{--confirm : Flag to confirm action.}
     						{--A|all : Get all items.}
     						{--S|sync : Sync to this database.}';
 
@@ -57,6 +59,7 @@ class ChildlessCommand extends Command
 		 */
         $d2l = resolve('D2LHelper');
 		$sync = $this->option('sync');
+		$removeAward = $this->option('removeAward');
 		$award = $this->option('award');
 		$credit = $this->option('credit');
 		$enroll = $this->option('enroll');
@@ -102,6 +105,14 @@ class ChildlessCommand extends Command
 					}
 				}
 			}
+
+			if ($removeAward) {
+			    $this->call('smithu:awards', [
+			        'awardId' => $removeAward,
+                    '--removeFrom' => $id,
+                    '--confirm' => $this->option('confirm')
+                ]);
+            }
 
 			if ($award || $credit) {
 				if ($award && $credit) {

@@ -20,6 +20,19 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
+    public function deleteAssociation($orgUnit, $associationId)
+    {
+        $path = $this->d2l->generateUrl("/orgunits/{$orgUnit}/associations/{$associationId}", 'bas', 'DELETE');
+        return $this->d2l->callAPI($path, 'DELETE');
+    }
+
+    public function getOrgUnitAssociations($orgUnit, $params = [])
+    {
+        $path = $this->addQueryParameters('/orgunits/' . $orgUnit . '/associations/', $params);
+        $path = $this->d2l->generateUrl($path, 'bas');
+        return $this->d2l->callAPI($path);
+    }
+
     public function getPagedResultItems($pagedResult)
     {
         return $pagedResult['Items'] ?? [];

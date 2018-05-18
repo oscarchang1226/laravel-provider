@@ -5,6 +5,24 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 interface D2LHelperInterface
 {
     /**
+     * Delete an award’s association with an org unit.
+     *
+     * @param $orgUnit
+     * @param $associationId
+     * @return mixed
+     */
+    public function deleteAssociation ($orgUnit, $associationId);
+
+    /**
+     * Retrieve an org unit’s associations.
+     *
+     * @param $orgUnit
+     * @param array $params
+     * @return mixed
+     */
+    public function getOrgUnitAssociations ($orgUnit, $params = []);
+
+    /**
      * Get items of paged result
      *
      * @param $pagedResult
