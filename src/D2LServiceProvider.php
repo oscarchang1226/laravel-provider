@@ -8,7 +8,6 @@ use SmithAndAssociates\LaravelValence\Helper\D2LHelper;
 use SmithAndAssociates\LaravelValence\Console\ChildlessCommand;
 use SmithAndAssociates\LaravelValence\Console\OuTypesCommand;
 use SmithAndAssociates\LaravelValence\Console\TableOfContentCommand;
-use SmithAndAssociates\LaravelValence\Console\UsersCommand;
 use SmithAndAssociates\LaravelValence\Console\DataExportCommand;
 use SmithAndAssociates\LaravelValence\Console\RolesCommand;
 use SmithAndAssociates\LaravelValence\Console\EnrollCommand;
@@ -61,7 +60,6 @@ class D2LServiceProvider extends ServiceProvider
 				ChildlessCommand::class,
 				OuTypesCommand::class,
 				TableOfContentCommand::class,
-				UsersCommand::class,
 				DataExportCommand::class,
 				RolesCommand::class,
 				EnrollCommand::class,
