@@ -5,6 +5,22 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 interface D2LHelperInterface
 {
     /**
+     * Sort by Identifier then pop last item
+     *
+     * @param $pageResult
+     * @return mixed
+     */
+    public function getLastPagedResultItem ($pageResult);
+    
+    /**
+     * Retrieve rubrics for an object in an org unit.
+     *
+     * @param $orgUnit
+     * @return mixed
+     */
+    public function getRubrics($orgUnit);
+
+    /**
      * Delete an award’s association with an org unit.
      *
      * @param $orgUnit

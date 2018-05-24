@@ -3,6 +3,7 @@
 namespace SmithAndAssociates\LaravelValence\Console;
 
 use Illuminate\Console\Command;
+use SmithAndAssociates\LaravelValence\D2L;
 use SmithAndAssociates\LaravelValence\Helper\D2LHelper;
 use App\Taker;
 
@@ -35,12 +36,18 @@ class UsersCommand extends Command
     protected $description = 'Retrieve data for one or more users.';
 
     /**
+     * @var D2LHelper
+     */
+    protected $d2l;
+
+    /**
      * Create a new command instance.
      *
      * @return void
      */
     public function __construct()
     {
+        $this->d2l = resolve('D2LHelper');
         parent::__construct();
     }
 

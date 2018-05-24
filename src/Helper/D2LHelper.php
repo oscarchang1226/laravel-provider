@@ -20,6 +20,18 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
+    public function getLastPagedResultItem($pageResult)
+    {
+        $item = collect($this->getPagedResultItems($pageResult))->sortBy('Identifier');
+        return $item->pop();
+    }
+
+    public function getRubrics($orgUnit)
+    {
+        $path = $this->d2l->generateUrl("/{$orgUnit}/rubrics", 'le');
+        return $this->d2l->callAPI($path);
+    }
+
     public function deleteAssociation($orgUnit, $associationId)
     {
         $path = $this->d2l->generateUrl("/orgunits/{$orgUnit}/associations/{$associationId}", 'bas', 'DELETE');

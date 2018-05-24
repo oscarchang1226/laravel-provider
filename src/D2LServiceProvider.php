@@ -10,7 +10,6 @@ use SmithAndAssociates\LaravelValence\Console\OuTypesCommand;
 use SmithAndAssociates\LaravelValence\Console\TableOfContentCommand;
 use SmithAndAssociates\LaravelValence\Console\DataExportCommand;
 use SmithAndAssociates\LaravelValence\Console\RolesCommand;
-use SmithAndAssociates\LaravelValence\Console\EnrollCommand;
 use SmithAndAssociates\LaravelValence\Console\SpecialCommand;
 use SmithAndAssociates\LaravelValence\Console\AuthenticateCommand;
 use SmithAndAssociates\LaravelValence\Console\CopyCommand;
@@ -62,7 +61,6 @@ class D2LServiceProvider extends ServiceProvider
 				TableOfContentCommand::class,
 				DataExportCommand::class,
 				RolesCommand::class,
-				EnrollCommand::class,
 				SpecialCommand::class,
                 AuthenticateCommand::class,
 				CopyCommand::class,
