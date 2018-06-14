@@ -5,6 +5,24 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 interface D2LHelperInterface
 {
     /**
+     * Retrieve the course image for a course offering.
+     *
+     * @param $orgUnit
+     * @return mixed
+     */
+    public function getCourseImageUrl ($orgUnit);
+
+    /**
+     * Retrieve the user progress items in an org unit, for specific users or content topics.
+     * Params: userId, objectId, pageSize=20
+     *
+     * @param $orgUnit
+     * @param $params
+     * @return mixed
+     */
+    public function getUserProgress ($orgUnit, $params);
+
+    /**
      * Sort by Identifier then pop last item
      *
      * @param $pageResult

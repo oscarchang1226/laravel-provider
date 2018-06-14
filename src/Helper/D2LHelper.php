@@ -20,6 +20,19 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
+    public function getCourseImageUrl($orgUnit)
+    {
+        $path = $this->d2l->generateUrl("/courses/{$orgUnit}/image", 'lp', 'GET', false);
+        return $path;
+    }
+
+    public function getUserProgress($orgUnit, $params)
+    {
+        $path = $this->addQueryParameters("/{$orgUnit}/content/userprogress/", $params);
+        $path = $this->d2l->generateUrl($path, 'le');
+        return $this->d2l->callAPI($path);
+    }
+
     public function getLastPagedResultItem($pageResult)
     {
         $item = collect($this->getPagedResultItems($pageResult))->sortBy('Identifier');

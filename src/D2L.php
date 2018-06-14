@@ -35,7 +35,7 @@ class D2L implements D2LInterface
     }
 
 
-    public function generateUrl( $path, $code = null, $method = 'GET' ) {
+    public function generateUrl( $path, $code = null, $method = 'GET', $isAuth = true ) {
 		$url = '/d2l/api';
 		if ($code) {
 			$code = strtolower($code);
@@ -50,7 +50,11 @@ class D2L implements D2LInterface
 				$url .= D2LConstants::URI_LR_VERSION;
 			}
 		}
-		return $this->userContext->createAuthenticatedUri($url.$path, $method);
+		if ($isAuth) {
+            return $this->userContext->createAuthenticatedUri($url.$path, $method);
+        } else {
+		    return $this->userContext->createUnauthenticatedUri($url.$path, $method);
+        }
 	}
 
 	public function callAPI( $path, $method = 'GET', $body = [] ) {
