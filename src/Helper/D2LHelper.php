@@ -22,7 +22,7 @@ class D2LHelper implements D2LHelperInterface
 
     public function getCourseImageUrl($orgUnit)
     {
-        $path = $this->d2l->generateUrl("/courses/{$orgUnit}/image", 'lp', 'GET', false);
+        $path = $this->d2l->generateUrl("/courses/{$orgUnit}/image", 'lp');
         return $path;
     }
 
