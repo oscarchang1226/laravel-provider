@@ -20,6 +20,17 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
+    public function getAllOrgStructure($params)
+    {
+        $orgStructurePageResult = $this->getOrgStructure($params);
+        while ($this->hasMoreItem($orgStructurePageResult)) {
+            $params['bookmark'] = $this->getBookmark($orgStructurePageResult);
+            $temp = $this->getOrgStructure($params);
+            $orgStructurePageResult = $this->updatePagedResult($orgStructurePageResult, $temp);
+        }
+        return $this->getPagedResultItems($orgStructurePageResult);
+    }
+
     public function getCourseImageUrl($orgUnit)
     {
         $path = $this->d2l->generateUrl("/courses/{$orgUnit}/image", 'lp');

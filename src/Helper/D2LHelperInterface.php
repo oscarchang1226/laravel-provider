@@ -5,6 +5,14 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 interface D2LHelperInterface
 {
     /**
+     * Retrieve all org structure with given params.
+     *
+     * @param $params
+     * @return mixed
+     */
+    public function getAllOrgStructure ($params);
+
+    /**
      * Retrieve the course image for a course offering.
      *
      * @param $orgUnit
