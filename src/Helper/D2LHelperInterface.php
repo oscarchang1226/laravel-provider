@@ -5,12 +5,68 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 interface D2LHelperInterface
 {
     /**
-     * Retrieve all org structure with given params.
+     * Retrieve a course offering.
      *
+     * @param $orgUnit
+     * @return mixed
+     */
+    public function getCourseOffering ($orgUnit);
+
+    /**
+     * Update a current course offering.
+     *
+     * @param $orgUnit
      * @param $params
      * @return mixed
      */
-    public function getAllOrgStructure ($params);
+    public function updateCourseOffering ($orgUnit, $params);
+
+    /**
+     * Return Course Offering Info Object
+     *
+     * @param $name
+     * @param $code
+     * @param $isActive
+     * @param null $startDate
+     * @param null $endDate
+     * @return mixed
+     */
+    public function generateCourseOfferingInfo ($name, $code, $isActive, $startDate = null, $endDate = null);
+
+    /**
+     * Retrieve all descendants with given org unit.
+     *
+     * @param $orgUnit
+     * @param array $params
+     * @return mixed
+     */
+    public function getAllOrgUnitDescendants ($orgUnit, $params = []);
+
+    /**
+     * Retrieve all of given org unit children.
+     *
+     * @param $orgUnit
+     * @param int $type
+     * @return mixed
+     */
+    public function getAllOrgUnitChildren ($orgUnit, $type = 101);
+
+    /**
+     * Retrieve all of user's enrollments.
+     *
+     * @param $userId
+     * @param array $params
+     * @return mixed
+     */
+    public function getAllEnrollments ($userId, $params = []);
+
+    /**
+     * Retrieve all org structure with given params.
+     *
+     * @param array $params
+     * @return mixed
+     */
+    public function getAllOrgStructure ($params = []);
 
     /**
      * Retrieve the course image for a course offering.
@@ -399,15 +455,15 @@ interface D2LHelperInterface
 	 */
 	public function getVersions($productCode);
 
-	/**
-	 * Retrieve the awards issued to a user.
-	 *
-	 * @param $userId
-	 * @param $params
-	 *
-	 * @return mixed
-	 */
-	public function getUserAwards($userId, $params = []);
+    /**
+     * Retrieve the awards issued to a user.
+     *
+     * @param $userId
+     * @param array $params
+     * @param null $orgUnit
+     * @return mixed
+     */
+	public function getUserAwards($userId, $params = [], $orgUnit = null);
 	/**
 	 * Retrieve awards available across the organization.
 	 *

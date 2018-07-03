@@ -20,7 +20,62 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
-    public function getAllOrgStructure($params)
+    public function getCourseOffering($orgUnit)
+    {
+        $path = $this->d2l->generateUrl("/courses/{$orgUnit}", 'lp');
+        return $this->d2l->callAPI($path);
+    }
+
+    public function updateCourseOffering($orgUnit, $params)
+    {
+        $path = $this->d2l->generateUrl("/courses/{$orgUnit}", 'lp', 'PUT');
+        return $this->d2l->callAPI($path, 'PUT', $params);
+    }
+
+    public function generateCourseOfferingInfo($name, $code, $isActive, $startDate = null, $endDate = null)
+    {
+        return [
+            'Name' => $name,
+            'Code' => $code,
+            'StartDate' => $startDate,
+            'EndDate' => $endDate,
+            'IsActive' => $isActive
+        ];
+    }
+
+    public function getAllOrgUnitDescendants($orgUnit, $params = [])
+    {
+        $descendantPageResult = $this->getDescendants($orgUnit, $params);
+        while ($this->hasMoreItem($descendantPageResult)) {
+            $params['bookmark'] = $this->getBookmark($descendantPageResult);
+            $temp = $this->getUserEnrollments($userId, $params);
+            $descendantPageResult = $this->updatePagedResult($descendantPageResult, $temp);
+        }
+        return $this->getPagedResultItems($descendantPageResult);
+    }
+
+    public function getAllOrgUnitChildren($orgUnit, $type = 101)
+    {
+        $childrenPageResult = $this->getOrgUnitChildren($orgUnit, $type);
+        while($this->hasMoreItem($childrenPageResult)) {
+            $temp = $this->getOrgUnitChildren($orgUnit, $type, $this->getBookmark($childrenPageResult));
+            $childrenPageResult = $this->updatePagedResult($childrenPageResult, $temp);
+        }
+        return $this->getPagedResultItems($childrenPageResult);
+    }
+
+    public function getAllEnrollments($userId, $params = [])
+    {
+        $enrollmentPageResult = $this->getUserEnrollments($userId, $params);
+        while ($this->hasMoreItem($enrollmentPageResult)) {
+            $params['bookmark'] = $this->getBookmark($enrollmentPageResult);
+            $temp = $this->getUserEnrollments($userId, $params);
+            $enrollmentPageResult = $this->updatePagedResult($enrollmentPageResult, $temp);
+        }
+        return $this->getPagedResultItems($enrollmentPageResult);
+    }
+
+    public function getAllOrgStructure($params = [])
     {
         $orgStructurePageResult = $this->getOrgStructure($params);
         while ($this->hasMoreItem($orgStructurePageResult)) {
@@ -285,9 +340,12 @@ class D2LHelper implements D2LHelperInterface
 		return $this->d2l->callAPI($path);
 	}
 
-
-	public function getUserAwards( $userId, $params = [] ) {
-		$path = $this->addQueryParameters('/issued/users/'.$userId.'/', $params);
+	public function getUserAwards( $userId, $params = [], $orgUnit = null ) {
+	    if ($orgUnit) {
+	        $path = $this->addQueryParameters("/orgunits/{$orgUnit}/classlist/users/{$userId}", $params);
+        } else {
+            $path = $this->addQueryParameters('/issued/users/'.$userId.'/', $params);
+        }
 		$path = $this->d2l->generateUrl($path, 'bas');
 		return $this->d2l->callAPI($path);
 	}

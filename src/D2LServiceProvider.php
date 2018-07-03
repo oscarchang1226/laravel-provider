@@ -3,7 +3,6 @@
 namespace SmithAndAssociates\LaravelValence;
 
 use Illuminate\Support\ServiceProvider;
-use SmithAndAssociates\LaravelValence\Console\AwardCommand;
 use SmithAndAssociates\LaravelValence\Helper\D2LHelper;
 use SmithAndAssociates\LaravelValence\Console\ChildlessCommand;
 use SmithAndAssociates\LaravelValence\Console\OuTypesCommand;
@@ -54,7 +53,6 @@ class D2LServiceProvider extends ServiceProvider
 
 		if ($this->app->runningInConsole()) {
 			$this->commands([
-				AwardCommand::class,
 				ChildlessCommand::class,
 				OuTypesCommand::class,
 				TableOfContentCommand::class,
