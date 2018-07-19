@@ -5,6 +5,14 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 interface D2LHelperInterface
 {
     /**
+     * Generate one dimension array of course table of contents
+     *
+     * @param $orgUnit
+     * @param array $params
+     * @return mixed
+     */
+    public function generateCourseTOCArray ($orgUnit, $params = []);
+    /**
      * Retrieve a course offering.
      *
      * @param $orgUnit

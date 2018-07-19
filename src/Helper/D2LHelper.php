@@ -20,6 +20,37 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
+	protected function getModuleSummary ($module, $parent = null)
+    {
+        return [
+            'title' => $module['Title'],
+            'type' => 'module'
+        ];
+    }
+
+    protected function getTopicSummary ($topic, $parent = null)
+    {
+        return [
+            'title' => $topic['Title'],
+            'type' => 'topic'
+        ];
+    }
+
+    public function generateCourseTOCArray($orgUnit, $params = [])
+    {
+        $toc = $this->getCourseTOC($orgUnit, $params);
+        $result = [];
+        if (!isset($toc['error']) && isset($toc['Modules'])) {
+            foreach ($toc['Modules'] as $module) {
+                array_push($result, $this->getModuleSummary($module));
+                foreach ($module['Topics'] as $topic) {
+                    array_push($result, $this->getTopicSummary($topic));
+                }
+            }
+        }
+        return $result;
+    }
+
     public function getCourseOffering($orgUnit)
     {
         $path = $this->d2l->generateUrl("/courses/{$orgUnit}", 'lp');
@@ -354,6 +385,7 @@ class D2LHelper implements D2LHelperInterface
 	public function getAwards( $params = [] ) {
 		$path = $this->addQueryParameters('/awards/', $params);
 		$path = $this->d2l->generateUrl($path, 'bas');
+		dd($path);
 		return $this->d2l->callAPI($path);
 	}
 
