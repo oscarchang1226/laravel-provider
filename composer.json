@@ -1,7 +1,7 @@
 {
-    "name": "smithandassociates/laravelvalence",
-    "description": "Laravel service provider for D2L Valence API",
-    "keywords": ["d2l", "valence", "laravel"],
+    "name": "smithandassociates/laravel-provider",
+    "description": "Laravel service provider for third party API to work with Smith University",
+    "keywords": ["laravel"],
     "license": "Apache-2.0",
     "authors": [
         {
@@ -16,6 +16,7 @@
     },
     "require": {
         "desire2learn/valence": "dev-master",
+	"smithandassociates/datamuse": "dev-master",
         "laravel/framework": "^5.5"
     },
     "repositories" : {
