@@ -385,7 +385,6 @@ class D2LHelper implements D2LHelperInterface
 	public function getAwards( $params = [] ) {
 		$path = $this->addQueryParameters('/awards/', $params);
 		$path = $this->d2l->generateUrl($path, 'bas');
-		dd($path);
 		return $this->d2l->callAPI($path);
 	}
 
