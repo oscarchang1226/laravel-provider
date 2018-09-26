@@ -36,6 +36,36 @@ class D2LHelper implements D2LHelperInterface
         ];
     }
 
+    public function buildQuicklinkWithLtiLink($orgUnit, $ltiLink)
+    {
+        $path = $this->d2l->generateUrl("/lti/quicklink/{$orgUnit}/{$ltiLink}", 'le', 'POST');
+        return $this->d2l->callAPI($path, 'POST');
+    }
+
+    public function registerLtiLink($orgUnit, $params)
+    {
+        $path = $this->d2l->generateUrl("/lti/link/{$orgUnit}", 'le', 'POST');
+        return $this->d2l->callAPI($path, 'POST', $params);
+    }
+
+    public function getLtiLinkInfo($orgUnit, $ltiLinkId)
+    {
+        $path = $this->d2l->generateUrl("/lti/link/{$orgUnit}/{$ltiLinkId}", 'le');
+        return $this->d2l->callAPI($path);
+    }
+
+    public function getLtiLink($orgUnit)
+    {
+        $path = $this->d2l->generateUrl("/lti/link/{$orgUnit}/", 'le');
+        return $this->d2l->callAPI($path);
+    }
+
+    public function getLtiToolProvider($orgUnit)
+    {
+        $path = $this->d2l->generateUrl("/lti/tp/{$orgUnit}/", 'le');
+        return $this->d2l->callAPI($path);
+    }
+
     public function generateCourseTOCArray($orgUnit, $params = [])
     {
         $toc = $this->getCourseTOC($orgUnit, $params);

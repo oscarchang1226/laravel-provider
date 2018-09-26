@@ -5,6 +5,49 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 interface D2LHelperInterface
 {
     /**
+     *
+     *
+     * @param $orgUnit
+     * @param $ltiLink
+     * @return mixed
+     */
+    public function buildQuicklinkWithLtiLink ($orgUnit, $ltiLink);
+
+    /**
+     * Register a new LTI link for an org unit.
+     *
+     * @param $orgUnit
+     * @param $params
+     * @return mixed
+     */
+    public function registerLtiLink ($orgUnit, $params);
+
+    /**
+     * Retrieve the information for a particular LTI link.
+     *
+     * @param $orgUnit
+     * @param $ltiLinkId
+     * @return mixed
+     */
+    public function getLtiLinkInfo($orgUnit, $ltiLinkId);
+
+    /**
+     * Retrieve the information for all LTI links registered for an org unit.
+     *
+     * @param $orgUnit
+     * @return mixed
+     */
+    public function getLtiLink ($orgUnit);
+
+    /**
+     * Retrieve the information for all LTI tool providers registered for an org unit.
+     *
+     * @param $orgUnit
+     * @return mixed
+     */
+    public function getLtiToolProvider ($orgUnit);
+
+    /**
      * Generate one dimension array of course table of contents
      *
      * @param $orgUnit
@@ -101,7 +144,7 @@ interface D2LHelperInterface
      * @return mixed
      */
     public function getLastPagedResultItem ($pageResult);
-    
+
     /**
      * Retrieve rubrics for an object in an org unit.
      *
@@ -144,7 +187,7 @@ interface D2LHelperInterface
      * @return mixed
      */
     public function updatePagedResult ($oldPage, $newPage);
-    
+
     /**
      * Check if there are more item in paged result
      *
