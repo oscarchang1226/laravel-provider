@@ -72,8 +72,14 @@ class D2LHelper implements D2LHelperInterface
         $result = [];
         if (!isset($toc['error']) && isset($toc['Modules'])) {
             foreach ($toc['Modules'] as $module) {
+                if ($module['IsHidden']) {
+                    continue;
+                }
                 array_push($result, $this->getModuleSummary($module));
                 foreach ($module['Topics'] as $topic) {
+                    if ($topic['IsHidden']) {
+                        continue;
+                    }
                     array_push($result, $this->getTopicSummary($topic));
                 }
             }
