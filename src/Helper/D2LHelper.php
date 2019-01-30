@@ -28,6 +28,52 @@ class D2LHelper implements D2LHelperInterface
         ];
     }
 
+    public function getUserGradeValueInOrgUnit($orgUnitId, $gradeObjectId, $userId)
+    {
+        $path = $this->d2l->generateUrl("/{$orgUnitId}/grades/{$gradeObjectId}/values/{$userId}", 'le');
+        return $this->d2l->callAPI($path);
+    }
+
+    public function getOrgUnitGradeObjects($orgUnitId)
+    {
+        $path = $this->d2l->generateUrl("/{$orgUnitId}/grades/", 'le');
+        return $this->d2l->callAPI($path);
+    }
+
+    public function getAllOrgUnitGradeValues($orgUnitId, $gradeObjectId, $params = [])
+    {
+        $gradeValues = null;
+        $temp = null;
+        do {
+            if ($gradeValues) {
+                $temp = $this->d2l->callAPI($this->d2l->generateUrlWithoutCode($temp['Next']));
+                $gradeValues = array_merge($gradeValues, $temp['Objects']);
+            } else {
+                $temp = $this->getOrgUnitGradeValues($orgUnitId, $gradeObjectId, $params);
+                $gradeValues = $temp['Objects'];
+            }
+        } while ($temp['Next']);
+        return $gradeValues;
+    }
+
+    public function getOrgUnitGradeValues($orgUnitId, $gradeObjectId, $params = [])
+    {
+        $path = $this->addQueryParameters("/{$orgUnitId}/grades/{$gradeObjectId}/values/", $params);
+        $path = $this->d2l->generateUrl($path, 'le');
+        return $this->d2l->callAPI($path);
+    }
+
+    public function getAllUsers($params = [])
+    {
+        $usersPageResult = $this->getUsers($params);
+        while ($this->hasMoreItem($usersPageResult)) {
+            $params['bookmark'] = $this->getBookmark($usersPageResult);
+            $temp = $this->getUsers($params);
+            $usersPageResult = $this->updatePagedResult($usersPageResult, $temp);
+        }
+        return $this->getPagedResultItems($usersPageResult);
+    }
+
     protected function getTopicSummary ($topic, $parent = null)
     {
         return [
@@ -275,7 +321,7 @@ class D2LHelper implements D2LHelperInterface
 
     public function getUrlToAuthenticate($host, $port = 443)
     {
-        return $this->d2l->getAuthContext()->createUrlForAuthentication($host, $port, 'https://udev.smithbuy.com/');
+        return $this->d2l->getAuthContext()->createUrlForAuthentication($host, $port, 'https://smithweb.brightspace.com/');
     }
 
     public function dismissUser( $userId, $orgUnit ) {

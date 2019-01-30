@@ -4,6 +4,42 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 
 interface D2LHelperInterface
 {
+
+    /**
+     * Retrieve a specific grade value for a particular user assigned in an org unit.
+     *
+     * @param $orgUnitId
+     * @param $gradeObjectId
+     * @param $userId
+     * @return mixed
+     */
+    public function getUserGradeValueInOrgUnit ($orgUnitId, $gradeObjectId, $userId);
+
+    /**
+     * Retrieve all the current grade objects for a particular org unit.
+     *
+     * @param $orgUnitId
+     * @return mixed
+     */
+    public function getOrgUnitGradeObjects ($orgUnitId);
+
+    /**
+     * Retrieve each user’s grade value for a particular grade object.
+     *
+     * @param $orgUnitId
+     * @param $gradeObjectId
+     * @return mixed
+     */
+    public function getOrgUnitGradeValues ($orgUnitId, $gradeObjectId);
+
+    /**
+     * Get all users
+     *
+     * @param array $params
+     * @return mixed
+     */
+    public function getAllUsers ($params = []);
+
     /**
      *
      *

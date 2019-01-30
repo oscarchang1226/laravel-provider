@@ -34,6 +34,14 @@ class D2L implements D2LInterface
         return $this->authContext;
     }
 
+    public function generateUrlWithoutCode( $path, $method = 'GET', $isAuth = true )
+    {
+        if ($isAuth) {
+            return $this->userContext->createAuthenticatedUri($path, $method);
+        } else {
+            return $this->userContext->createUnauthenticatedUri($path, $method);
+        }
+    }
 
     public function generateUrl( $path, $code = null, $method = 'GET', $isAuth = true ) {
 		$url = '/d2l/api';
