@@ -68,6 +68,15 @@ interface D2LHelperInterface
     public function getLtiLinkInfo($orgUnit, $ltiLinkId);
 
     /**
+     * Update the information associated with a registered LTI link.
+     *
+     * @param $ltiLinkId
+     * @param $linkData
+     * @return mixed
+     */
+    public function updateLtiLink($ltiLinkId, $linkData);
+
+    /**
      * Retrieve the information for all LTI links registered for an org unit.
      *
      * @param $orgUnit

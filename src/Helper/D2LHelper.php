@@ -100,6 +100,13 @@ class D2LHelper implements D2LHelperInterface
         return $this->d2l->callAPI($path);
     }
 
+    public function updateLtiLink($ltiLinkId, $linkData)
+    {
+        // TODO: Implement updateLtiLink() method.
+        $path = $this->d2l->generateUrl("/lti/link/{$ltiLinkId}", 'le', 'PUT');
+        return $this->d2l->callAPI($path, 'PUT', $linkData);
+    }
+
     public function getLtiLink($orgUnit)
     {
         $path = $this->d2l->generateUrl("/lti/link/{$orgUnit}/", 'le');
@@ -158,13 +165,14 @@ class D2LHelper implements D2LHelperInterface
 
     public function getAllOrgUnitDescendants($orgUnit, $params = [])
     {
-        $descendantPageResult = $this->getDescendants($orgUnit, $params);
-        while ($this->hasMoreItem($descendantPageResult)) {
-            $params['bookmark'] = $this->getBookmark($descendantPageResult);
-            $temp = $this->getUserEnrollments($userId, $params);
-            $descendantPageResult = $this->updatePagedResult($descendantPageResult, $temp);
-        }
-        return $this->getPagedResultItems($descendantPageResult);
+//        $descendantPageResult = $this->getDescendants($orgUnit, $params);
+//        while ($this->hasMoreItem($descendantPageResult)) {
+//            $params['bookmark'] = $this->getBookmark($descendantPageResult);
+//            $temp = $this->getUserEnrollments($userId, $params);
+//            $descendantPageResult = $this->updatePagedResult($descendantPageResult, $temp);
+//        }
+//        return $this->getPagedResultItems($descendantPageResult);
+        return null;
     }
 
     public function getAllOrgUnitChildren($orgUnit, $type = 101)
