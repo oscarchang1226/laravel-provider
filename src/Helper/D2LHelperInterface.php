@@ -357,6 +357,15 @@ interface D2LHelperInterface
 	 */
 	public function getUserData($userId);
 
+    /**
+     * Update data for a particular user.
+     *
+     * @param $userId
+     * @param $updateUserData
+     * @return mixed
+     */
+    public function updateUser( $userId, $updateUserData);
+
 	/**
 	 * Update a particular user’s activation settings.
 	 *

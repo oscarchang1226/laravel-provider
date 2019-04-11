@@ -28,6 +28,12 @@ class D2LHelper implements D2LHelperInterface
         ];
     }
 
+    public function updateUser($userId, $updateUserData)
+    {
+        $path = $this->d2l->generateUrl("/users/{$userId}", 'lp', 'PUT');
+        return $this->d2l->callAPI($path, 'PUT', $updateUserData);
+    }
+
     public function getUserGradeValueInOrgUnit($orgUnitId, $gradeObjectId, $userId)
     {
         $path = $this->d2l->generateUrl("/{$orgUnitId}/grades/{$gradeObjectId}/values/{$userId}", 'le');
