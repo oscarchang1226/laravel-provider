@@ -171,14 +171,13 @@ class D2LHelper implements D2LHelperInterface
 
     public function getAllOrgUnitDescendants($orgUnit, $params = [])
     {
-//        $descendantPageResult = $this->getDescendants($orgUnit, $params);
-//        while ($this->hasMoreItem($descendantPageResult)) {
-//            $params['bookmark'] = $this->getBookmark($descendantPageResult);
-//            $temp = $this->getUserEnrollments($userId, $params);
-//            $descendantPageResult = $this->updatePagedResult($descendantPageResult, $temp);
-//        }
-//        return $this->getPagedResultItems($descendantPageResult);
-        return null;
+        $descendantPageResult = $this->getDescendants($orgUnit, $params);
+        while ($this->hasMoreItem($descendantPageResult)) {
+            $params['bookmark'] = $this->getBookmark($descendantPageResult);
+            $temp = $this->getDescendants($orgUnit, $params);
+            $descendantPageResult = $this->updatePagedResult($descendantPageResult, $temp);
+        }
+        return $this->getPagedResultItems($descendantPageResult);
     }
 
     public function getAllOrgUnitChildren($orgUnit, $type = 101)
