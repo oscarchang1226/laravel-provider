@@ -4,6 +4,27 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 
 interface D2LHelperInterface
 {
+    /**
+     * Provide incoming grade object.
+     *
+     * @param $gradeObjectTypeId
+     * @param $grade
+     * @param string $comments
+     * @param string $privateComments
+     * @return array
+     */
+    public function getIncomingGradeValue($gradeObjectTypeId, $grade, $comments = '', $privateComments = '');
+
+    /**
+     * Provide a specific grade value for a particular user.
+     *
+     * @param $orgUnitId
+     * @param $gradeObjectId
+     * @param $userId
+     * @param $incomingGradeValue
+     * @return mixed
+     */
+    public function updateUserGradeValue ($orgUnitId, $gradeObjectId, $userId, $incomingGradeValue);
 
     /**
      * Retrieve a specific grade value for a particular user assigned in an org unit.
