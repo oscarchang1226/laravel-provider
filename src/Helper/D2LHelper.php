@@ -38,8 +38,14 @@ class D2LHelper implements D2LHelperInterface
     {
         $incomingGradeValue = [
             'GradeObjectType' => $gradeObjectTypeId,
-            'Comments' => $comments,
-            'PrivateComments' => $privateComments
+            'Comments' => [
+                'Content' => $comments,
+                'Type' => 'Text'
+            ],
+            'PrivateComments' => [
+                'Content' => $privateComments,
+                'Type' => 'Text'
+            ]
         ];
         if ($gradeObjectTypeId === 1) {
             $incomingGradeValue['PointsNumerator'] = $grade;
@@ -57,7 +63,7 @@ class D2LHelper implements D2LHelperInterface
 
     public function updateUserGradeValue($orgUnitId, $gradeObjectId, $userId, $incomingGradeValue)
     {
-        $path = $this->d2l->generateUrl("/{$orgUnitId}/grades/{$gradeObjectId}/values/{$userId}", 'le');
+        $path = $this->d2l->generateUrl("/{$orgUnitId}/grades/{$gradeObjectId}/values/{$userId}", 'le', 'PUT');
         return $this->d2l->callAPI($path, 'PUT', $incomingGradeValue);
     }
 
