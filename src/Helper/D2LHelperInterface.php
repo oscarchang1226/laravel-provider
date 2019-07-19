@@ -40,6 +40,28 @@ interface D2LHelperInterface
      */
     public function getCollection($objectId);
 
+    /*
+     * Provide incoming grade object.
+     *
+     * @param $gradeObjectTypeId
+     * @param $grade
+     * @param string $comments
+     * @param string $privateComments
+     * @return array
+     */
+    public function getIncomingGradeValue($gradeObjectTypeId, $grade, $comments = '', $privateComments = '');
+
+    /**
+     * Provide a specific grade value for a particular user.
+     *
+     * @param $orgUnitId
+     * @param $gradeObjectId
+     * @param $userId
+     * @param $incomingGradeValue
+     * @return mixed
+     */
+    public function updateUserGradeValue ($orgUnitId, $gradeObjectId, $userId, $incomingGradeValue);
+
     /**
      * Retrieve a specific grade value for a particular user assigned in an org unit.
      *
@@ -101,6 +123,15 @@ interface D2LHelperInterface
      * @return mixed
      */
     public function getLtiLinkInfo($orgUnit, $ltiLinkId);
+
+    /**
+     * Update the information associated with a registered LTI link.
+     *
+     * @param $ltiLinkId
+     * @param $linkData
+     * @return mixed
+     */
+    public function updateLtiLink($ltiLinkId, $linkData);
 
     /**
      * Retrieve the information for all LTI links registered for an org unit.
@@ -382,6 +413,15 @@ interface D2LHelperInterface
 	 * @return mixed
 	 */
 	public function getUserData($userId);
+
+    /**
+     * Update data for a particular user.
+     *
+     * @param $userId
+     * @param $updateUserData
+     * @return mixed
+     */
+    public function updateUser( $userId, $updateUserData);
 
 	/**
 	 * Update a particular user’s activation settings.

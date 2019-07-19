@@ -56,6 +56,45 @@ class D2LHelper implements D2LHelperInterface
         ];
     }
 
+    public function updateUser($userId, $updateUserData)
+    {
+        $path = $this->d2l->generateUrl("/users/{$userId}", 'lp', 'PUT');
+        return $this->d2l->callAPI($path, 'PUT', $updateUserData);
+    }
+
+    public function getIncomingGradeValue($gradeObjectTypeId, $grade, $comments = '', $privateComments = '')
+    {
+        $incomingGradeValue = [
+            'GradeObjectType' => $gradeObjectTypeId,
+            'Comments' => [
+                'Content' => $comments,
+                'Type' => 'Text'
+            ],
+            'PrivateComments' => [
+                'Content' => $privateComments,
+                'Type' => 'Text'
+            ]
+        ];
+        if ($gradeObjectTypeId === 1) {
+            $incomingGradeValue['PointsNumerator'] = $grade;
+        } else if ($gradeObjectTypeId === 2) {
+            $incomingGradeValue['Pass'] = $grade;
+        } else if ($gradeObjectTypeId === 3) {
+            $incomingGradeValue['Value'] = $grade;
+        } else if ($gradeObjectTypeId === 4) {
+            $incomingGradeValue['Text'] = $grade;
+        } else {
+            return [];
+        }
+        return $incomingGradeValue;
+    }
+
+    public function updateUserGradeValue($orgUnitId, $gradeObjectId, $userId, $incomingGradeValue)
+    {
+        $path = $this->d2l->generateUrl("/{$orgUnitId}/grades/{$gradeObjectId}/values/{$userId}", 'le', 'PUT');
+        return $this->d2l->callAPI($path, 'PUT', $incomingGradeValue);
+    }
+
     public function getUserGradeValueInOrgUnit($orgUnitId, $gradeObjectId, $userId)
     {
         $path = $this->d2l->generateUrl("/{$orgUnitId}/grades/{$gradeObjectId}/values/{$userId}", 'le');
@@ -128,6 +167,13 @@ class D2LHelper implements D2LHelperInterface
         return $this->d2l->callAPI($path);
     }
 
+    public function updateLtiLink($ltiLinkId, $linkData)
+    {
+        // TODO: Implement updateLtiLink() method.
+        $path = $this->d2l->generateUrl("/lti/link/{$ltiLinkId}", 'le', 'PUT');
+        return $this->d2l->callAPI($path, 'PUT', $linkData);
+    }
+
     public function getLtiLink($orgUnit)
     {
         $path = $this->d2l->generateUrl("/lti/link/{$orgUnit}/", 'le');
@@ -189,7 +235,7 @@ class D2LHelper implements D2LHelperInterface
         $descendantPageResult = $this->getDescendants($orgUnit, $params);
         while ($this->hasMoreItem($descendantPageResult)) {
             $params['bookmark'] = $this->getBookmark($descendantPageResult);
-            $temp = $this->getUserEnrollments($userId, $params);
+            $temp = $this->getDescendants($orgUnit, $params);
             $descendantPageResult = $this->updatePagedResult($descendantPageResult, $temp);
         }
         return $this->getPagedResultItems($descendantPageResult);
