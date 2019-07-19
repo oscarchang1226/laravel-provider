@@ -20,7 +20,35 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
-	protected function getModuleSummary ($module, $parent = null)
+    public function enrollUserToGroup($orgUnit, $groupCategory, $groupId, $userId)
+    {
+        $groupEnrollment = [
+            'UserId' => $userId
+        ];
+        $path = $this->d2l->generateUrl("/{$orgUnit}/groupcategories/{$groupCategory}/groups/{$groupId}/enrollments/", 'lp', 'POST');
+        return $this->d2l->callAPI($path, 'POST', $groupEnrollment);
+    }
+
+    public function getOrgUnitGroupCategoriesGroup($orgUnit, $groupCategory)
+    {
+        $path = $this->d2l->generateUrl("/{$orgUnit}/groupcategories/{$groupCategory}/groups/", 'lp');
+        return $this->d2l->callAPI($path);
+    }
+
+    public function getOrgUnitGroupCategories($orgUnit)
+    {
+        $path = $this->d2l->generateUrl("/{$orgUnit}/groupcategories/", 'lp');
+        return $this->d2l->callAPI($path);
+    }
+
+
+    public function getCollection($objectId)
+    {
+        $path = $this->d2l->generateUrl("/collection/{$objectId}", "ep");
+        return $this->d2l->callAPI($path);
+    }
+
+    protected function getModuleSummary ($module, $parent = null)
     {
         return [
             'title' => $module['Title'],

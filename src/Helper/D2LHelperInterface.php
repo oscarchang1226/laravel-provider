@@ -4,6 +4,41 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 
 interface D2LHelperInterface
 {
+    /**
+     * Enroll a user in a group.
+     *
+     * @param $orgUnit
+     * @param $groupCategory
+     * @param $groupId
+     * @param $userId
+     * @return mixed
+     */
+    public function enrollUserToGroup($orgUnit, $groupCategory, $groupId, $userId);
+
+    /**
+     * Retrieve a list of all the groups in a particular group category for an org unit.
+     *
+     * @param $orgUnit
+     * @param $groupCategory
+     * @return mixed
+     */
+    public function getOrgUnitGroupCategoriesGroup($orgUnit, $groupCategory);
+
+    /**
+     * Retrieve a list of all the group categories for the provided org unit.
+     *
+     * @param $orgUnit
+     * @return mixed
+     */
+    public function getOrgUnitGroupCategories($orgUnit);
+
+    /**
+     * Retrieve a particular EP collection, without its contents.
+     *
+     * @param $objectId
+     * @return mixed
+     */
+    public function getCollection($objectId);
 
     /**
      * Retrieve a specific grade value for a particular user assigned in an org unit.
