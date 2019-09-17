@@ -20,6 +20,19 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
+    public function getUserCompletion($orgUnit, $params = [])
+    {
+        if (!isset($params['ignoreInvalid'])) {
+            $params['ignoreInvalid'] = true;
+        }
+        if (!isset($params['userIdsCSV'])) {
+            $params['userIdsCSV'] = '685';
+        }
+        $path = $this->addQueryParameters("/{$orgUnit}/content/completions/", $params);
+        $path = $this->d2l->generateUrl($path, 'le');
+        return $this->d2l->callAPI($path);
+    }
+
     public function enrollUserToGroup($orgUnit, $groupCategory, $groupId, $userId)
     {
         $groupEnrollment = [

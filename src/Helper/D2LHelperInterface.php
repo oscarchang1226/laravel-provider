@@ -5,6 +5,15 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 interface D2LHelperInterface
 {
     /**
+     * Retrieves the count of completed and required content topics in an org unit for each of the users in the csv.
+     *
+     * @param $orgUnit
+     * @param array $params
+     * @return mixed
+     */
+    public function getUserCompletion($orgUnit, $params = []);
+
+    /**
      * Enroll a user in a group.
      *
      * @param $orgUnit
