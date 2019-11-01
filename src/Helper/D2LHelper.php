@@ -20,13 +20,21 @@ class D2LHelper implements D2LHelperInterface
 		$this->d2l = $d2l;
 	}
 
+    public function createIssuedAwardCreate($awardId, $issuedToUserId, $criteria, $evidence, $issuedDate = null)
+    {
+        return [
+            'AwardId' => $awardId,
+            'IssuedToUserId' => $issuedToUserId,
+            'Criteria' => $criteria,
+            'Evidence' => $evidence,
+            'IssuedDate' => $issuedDate
+        ];
+    }
+
     public function getUserCompletion($orgUnit, $params = [])
     {
         if (!isset($params['ignoreInvalid'])) {
             $params['ignoreInvalid'] = true;
-        }
-        if (!isset($params['userIdsCSV'])) {
-            $params['userIdsCSV'] = '685';
         }
         $path = $this->addQueryParameters("/{$orgUnit}/content/completions/", $params);
         $path = $this->d2l->generateUrl($path, 'le');

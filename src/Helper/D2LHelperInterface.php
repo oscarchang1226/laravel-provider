@@ -4,6 +4,25 @@ namespace SmithAndAssociates\LaravelValence\Helper;
 
 interface D2LHelperInterface
 {
+
+    /**
+     * Create action object that issues an award
+     *
+     * @param $awardId
+     * @param $issuedToUserId
+     * @param $criteria
+     * @param $evidence
+     * @param null $issuedDate
+     * @return array
+     */
+    public function createIssuedAwardCreate(
+        $awardId,
+        $issuedToUserId,
+        $criteria,
+        $evidence,
+        $issuedDate = null
+    );
+
     /**
      * Retrieves the count of completed and required content topics in an org unit for each of the users in the csv.
      *
